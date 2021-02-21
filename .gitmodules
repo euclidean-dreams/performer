@@ -1,11 +1,14 @@
 [submodule "lib/rpi_ws281x"]
 	path = lib/rpi_ws281x
 	url = git@github.com:impresario-systems/rpi_ws281x.git
-[submodule "lib/serialization"]
-	path = lib/serialization
-	url = git@github.com:impresario-systems/serialization.git
-	branch = dev
 [submodule "lib/impresario-utils"]
 	path = lib/impresario-utils
 	url = git@github.com:impresario-systems/impresario-utils.git
+	branch = dev
+[submodule "lib/googletest"]
+	path = lib/googletest
+	url = https://github.com/google/googletest.git
+[submodule "lib/impresario-serialization"]
+	path = lib/impresario-serialization
+	url = git@github.com:impresario-systems/impresario-serialization.git
 	branch = dev
