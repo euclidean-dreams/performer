@@ -5,7 +5,7 @@
 
 class LedMatrix : NonCopyable {
 public:
-    virtual ~LedDriver() = default;
+    virtual ~LedMatrix() = default;
 
     virtual void render() = 0;
 
