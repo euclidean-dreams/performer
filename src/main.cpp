@@ -1,3 +1,6 @@
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include "Config.h"
+
 int main() {
-    return 0;
+    spdlog::stdout_color_mt(LOGGER_NAME);
 }
