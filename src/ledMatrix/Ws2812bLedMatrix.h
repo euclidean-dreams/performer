@@ -6,7 +6,7 @@
 #include "color/HSLColor.h"
 #include "LedMatrix.h"
 
-class Ws2812bLedMatrix : LedMatrix {
+class Ws2812bLedMatrix : public LedMatrix {
 private:
     ws2811_t ledDriver;
     int pwmChannel;

@@ -2,6 +2,8 @@
 #define PERFORMER_LEDMATRIX_H
 
 #include "NonCopyable.h"
+#include "color/HSLColor.h"
+#include "color/RGBColor.h"
 
 class LedMatrix : NonCopyable {
 public:

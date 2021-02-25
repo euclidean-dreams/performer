@@ -44,8 +44,8 @@ RGBColor HSLColor::convertToRGB() const {
         initialGreen = 0.0f;
         initialBlue = intermediary;
     }
-    auto red = static_cast<uint8_t>(round((initialRed + lightnessAdjustment) * 255));
-    auto green = static_cast<uint8_t>(round((initialGreen + lightnessAdjustment) * 255));
-    auto blue = static_cast<uint8_t>(round((initialBlue + lightnessAdjustment) * 255));
+    auto red = static_cast<uint8_t>(roundf((initialRed + lightnessAdjustment) * 255));
+    auto green = static_cast<uint8_t>(roundf((initialGreen + lightnessAdjustment) * 255));
+    auto blue = static_cast<uint8_t>(roundf((initialBlue + lightnessAdjustment) * 255));
     return RGBColor{red, green, blue};
 }

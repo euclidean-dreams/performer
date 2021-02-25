@@ -53,13 +53,13 @@ TEST_F(HSLColorTest, ConvertToRGBBasic) {
 }
 
 TEST_F(HSLColorTest, ConvertToRGBBlack) {
-    auto input = HSLColor{18, 0, 0};
+    auto input = HSLColor{0, 0, 0};
     auto expected = RGBColor{0, 0, 0};
     EXPECT_TRUE(areEqual(input.convertToRGB(), expected));
 }
 
 TEST_F(HSLColorTest, ConvertToRGBWhite) {
-    auto input = HSLColor{18, 0, 100};
+    auto input = HSLColor{0, 0, 100};
     auto expected = RGBColor{255, 255, 255};
     EXPECT_TRUE(areEqual(input.convertToRGB(), expected));
 }

@@ -20,7 +20,18 @@ set(
 
         src/ledMatrix/LedMatrix.h
         src/ledMatrix/Ws2812bLedMatrix.cpp src/ledMatrix/Ws2812bLedMatrix.h
-)
+
+        src/performance/Performance.h
+        src/performance/LedPerformance.cpp src/performance/LedPerformance.h
+
+        src/performance/movement/Movement.h
+        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
+        src/performance/movement/BeatMovement.cpp src/performance/movement/BeatMovement.h
+
+        src/performance/movement/action/Action.h
+        src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
+        src/performance/movement/action/Beat.cpp src/performance/movement/action/Beat.h
+        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
