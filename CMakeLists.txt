@@ -5,10 +5,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_compile_options(-Wno-psabi)
 
-add_subdirectory(lib/googletest)
-add_subdirectory(lib/impresario-serialization)
-add_subdirectory(lib/impresario-utils)
-add_subdirectory(lib/rpi_ws281x)
+include(lib/cmake-utils/dependency-integrator.cmake)
+integrate_cmake_dependency(
+        NAME googletest
+        GIT_URL git@github.com:google/googletest.git
+        GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e
+)
+integrate_cmake_dependency(
+        NAME rpi_ws281x
+        GIT_URL git@github.com:jgarff/rpi_ws281x.git
+        GIT_TAG 3a20f1bdd740a144de180a07d8d3317920459d2d
+)
+integrate_cmake_dependency(
+        NAME impresario-utils
+        GIT_URL git@github.com:impresario-systems/impresario-utils.git
+        GIT_TAG origin/dev
+)
+integrate_cmake_dependency(
+        NAME impresario-serialization
+        GIT_URL git@github.com:impresario-systems/impresario-serialization.git
+        GIT_TAG origin/dev
+)
 
 # performer
 set(
@@ -52,7 +69,7 @@ target_link_libraries(test-performer PRIVATE gtest_main)
 # finalize
 foreach (target IN LISTS TARGETS)
     target_include_directories(${target} PRIVATE src)
-    target_include_directories(${target} PRIVATE lib/rpi_ws281x)
+    target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/rpi_ws281x-src)
     target_link_libraries(${target} PRIVATE impresario-serialization)
     target_link_libraries(${target} PRIVATE impresario-utils)
     target_link_libraries(${target} PRIVATE ws2811)
