@@ -3,7 +3,7 @@
 LedPerformance::LedPerformance(context_t &context, const string &audioAttributeEndpoint)
         : tick{0},
           movements{},
-          ledMatrix{18, 0, 60},
+          ledMatrix{18, 0, 60 * 4},
           randomNumberGenerator{},
           audioAttributeSocket{context, audioAttributeEndpoint, socket_type::sub, false},
           lastFlip{getCurrentTime()} {

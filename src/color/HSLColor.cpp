@@ -5,7 +5,9 @@ HSLColor::HSLColor(uint32_t hue, uint8_t saturation, uint8_t lightness)
           saturation{saturation},
           lightness{lightness} {
     if (hue > 360 || saturation > 100 || lightness > 100) {
-        spdlog::get(LOGGER_NAME)->error("invalid HSL Color: ({}, {}, {})", hue, saturation, lightness);
+        spdlog::get(static_cast<string>(LOGGER_NAME))->error(
+                "invalid HSL Color: ({}, {}, {})", hue, saturation, lightness
+        );
         throw out_of_range("invalid HSL color");
     }
 }

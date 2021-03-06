@@ -13,7 +13,7 @@ Ws2812bLedMatrix::Ws2812bLedMatrix(int gpioNum, int pwmChannel, int ledCount)
         unusedPwmChannel = 0;
         ledDriver.dmanum = 11;
     } else {
-        spdlog::get(LOGGER_NAME)->error("invalid pwm channel: {}", pwmChannel);
+        spdlog::get(static_cast<string>(LOGGER_NAME))->error("invalid pwm channel: {}", pwmChannel);
         throw out_of_range("invalid pwm channel");
     }
     ledDriver.channel[pwmChannel].gpionum = gpioNum;
@@ -59,7 +59,9 @@ void Ws2812bLedMatrix::modifyLed(int index, HSLColor color) {
 
 void Ws2812bLedMatrix::modifyLed(int index, RGBColor color) {
     if (index < 0 || index > ledCount) {
-        spdlog::get(LOGGER_NAME)->error("attempted to modify an led at an invalid index: {}", index);
+        spdlog::get(static_cast<string>(LOGGER_NAME))->error(
+                "attempted to modify an led at an invalid index: {}", index
+        );
         throw out_of_range("attempted to modify an led at an invalid index");
     }
     ledDriver.channel[pwmChannel].leds[index] = formatColorForDriver(color);

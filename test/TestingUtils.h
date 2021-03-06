@@ -5,9 +5,10 @@
 #include "Config.h"
 
 inline void disableLogger() {
-    if (!spdlog::get(LOGGER_NAME)) {
-        spdlog::stdout_color_mt(LOGGER_NAME);
-        spdlog::get(LOGGER_NAME)->set_level(spdlog::level::off);
+    auto loggerName = static_cast<string>(LOGGER_NAME);
+    if (!spdlog::get(loggerName)) {
+        spdlog::stdout_color_mt(loggerName);
+        spdlog::get(loggerName)->set_level(spdlog::level::off);
     }
 }
 

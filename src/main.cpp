@@ -6,8 +6,8 @@
 using namespace zmq;
 
 int main() {
-    spdlog::stdout_color_mt(LOGGER_NAME);
+    spdlog::stdout_color_mt(static_cast<string>(LOGGER_NAME));
     context_t context(1);
-    auto ledPerformance = make_unique<LedPerformance>(context, CONDUCTOR_ENDPOINT);
+    auto ledPerformance = make_unique<LedPerformance>(context, static_cast<string>(CONDUCTOR_ENDPOINT));
     ledPerformance->perform();
 }

@@ -1,6 +1,8 @@
 #include "LoggingMovement.h"
 
-LoggingMovement::LoggingMovement(LedMatrix &ledMatrix) : ledMatrix{ledMatrix}, logger{spdlog::get(LOGGER_NAME)} {}
+LoggingMovement::LoggingMovement(LedMatrix &ledMatrix)
+        : ledMatrix{ledMatrix},
+          logger{spdlog::get(static_cast<string>(LOGGER_NAME))} {}
 
 void LoggingMovement::present(uint32_t tick, const AudioAttributes *audioAttributes) {
     if (audioAttributes != nullptr) {
