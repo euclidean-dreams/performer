@@ -50,7 +50,6 @@ void Ws2812bLedMatrix::clear() {
     for (int index = 0; index < ledCount; index++) {
         modifyLed(index, RGBColor{0, 0, 0});
     }
-    render();
 }
 
 void Ws2812bLedMatrix::modifyLed(int index, HSLColor color) {
