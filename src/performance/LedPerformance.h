@@ -26,6 +26,7 @@ using namespace ImpresarioSerialization;
 class LedPerformance : public Performance {
 private:
     uint32_t tick;
+    vector<std::unique_ptr<Movement>> eventReceivers;
     vector<std::unique_ptr<Movement>> movements;
     Ws2812bLedMatrix ledMatrix;
     RandomNumberGenerator randomNumberGenerator;
@@ -36,6 +37,8 @@ public:
     explicit LedPerformance(context_t &context, const string &audioAttributeEndpoint);
 
     void perform() override;
+
+
 };
 
 #endif //PERFORMER_LEDPERFORMANCE_H

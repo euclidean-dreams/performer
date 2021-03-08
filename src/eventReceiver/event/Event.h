@@ -3,8 +3,9 @@
 
 #include "NonCopyable.h"
 
-class Event: NonCopyable {
-
+class Event : NonCopyable {
+public:
+    virtual ~Event() = default;
 };
 
 #endif //PERFORMER_EVENT_H
