@@ -48,7 +48,7 @@ set(
         src/performance/movement/action/Action.h
         src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
         src/performance/movement/action/Beat.cpp src/performance/movement/action/Beat.h
-        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h)
+        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h src/receiver/OnsetReceiver.cpp src/receiver/OnsetReceiver.h src/receiver/AttributeReceiver.h src/receiver/event/Event.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
