@@ -1,10 +1,12 @@
 #ifndef PERFORMER_WS2812BLEDMATRIX_H
 #define PERFORMER_WS2812BLEDMATRIX_H
 
+#include <spdlog/spdlog.h>
 #include <ws2811.h>
-#include "color/RGBColor.h"
-#include "color/HSLColor.h"
+#include "Config.h"
 #include "LedMatrix.h"
+
+using namespace std;
 
 class Ws2812bLedMatrix : public LedMatrix {
 private:
@@ -12,7 +14,7 @@ private:
     int pwmChannel;
     int ledCount;
 
-    inline static uint32_t formatColorForDriver(const RGBColor &color);
+    inline static uint32_t formatColorForDriver(const ImpresarioSerialization::RGBColor *color);
 
 public:
     Ws2812bLedMatrix(int gpioNum, int pwmChannel, int ledCount);
@@ -21,13 +23,7 @@ public:
 
     void render() override;
 
-    void clear() override;
-
-    void modifyLed(int index, HSLColor color) override;
-
-    void modifyLed(int index, RGBColor color) override;
-
-    int getLedCount() const override;
+    void consumeLedPacket(const LedPacket *ledPacket) override;
 };
 
 #endif //PERFORMER_WS2812BLEDMATRIX_H

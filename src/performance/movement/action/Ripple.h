@@ -1,24 +1,22 @@
 #ifndef PERFORMER_RIPPLE_H
 #define PERFORMER_RIPPLE_H
 
-#include <memory>
-#include "ledMatrix/LedMatrix.h"
-#include "color/HSLColor.h"
+#include "Utils.h"
+#include "ledMatrix/LedMatrixProxy.h"
 #include "Action.h"
 
 class Ripple : public Action {
 private:
-    LedMatrix &ledMatrix;
+    LedMatrixProxy &ledMatrix;
     int initialIndex;
-    bool shouldContinue;
-    HSLColor initialColor;
+    Color::HSLColor initialColor;
     float speed;
+    bool shouldContinue;
 
 public:
-    explicit Ripple(uint32_t initialTick, LedMatrix &ledMatrix, int initialIndex, HSLColor initialColor,
-                    float speed);
+    Ripple(LedMatrixProxy &ledMatrix, int initialIndex, Color::HSLColor initialColor, float speed);
 
-    void execute(uint32_t tick) override;
+    void execute() override;
 
     bool finished() override;
 };

@@ -1,7 +1,6 @@
 #ifndef PERFORMER_PERFORMANCE_H
 #define PERFORMER_PERFORMANCE_H
 
-#include <cstdint>
 #include "NonCopyable.h"
 
 class Performance : NonCopyable {

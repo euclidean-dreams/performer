@@ -42,19 +42,19 @@ set(
         src/performance/LedPerformance.cpp src/performance/LedPerformance.h
 
         src/performance/movement/Movement.h
-        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
-        src/performance/movement/BeatMovement.cpp src/performance/movement/BeatMovement.h
 
         src/performance/movement/action/Action.h
-        src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
-        src/performance/movement/action/Beat.cpp src/performance/movement/action/Beat.h
-        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h
         src/eventReceiver/OnsetReceiver.cpp src/eventReceiver/OnsetReceiver.h
         src/eventReceiver/EventReceiver.h
         src/eventReceiver/event/Event.h
 
+        src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
 
-        src/eventReceiver/event/OnsetEvent.h src/eventReceiver/event/OnsetEvent.cpp)
+        src/eventReceiver/event/OnsetEvent.h src/eventReceiver/event/OnsetEvent.cpp
+        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
+        src/ledMatrix/LedMatrixProxy.cpp src/ledMatrix/LedMatrixProxy.h
+
+        src/ledMatrix/LedMatrixRenderer.cpp src/ledMatrix/LedMatrixRenderer.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
@@ -66,6 +66,7 @@ set(
 
         test/color/TestHSLColor.cpp
         test/color/TestRGBColor.cpp
+
 )
 list(APPEND TARGETS test-performer)
 add_executable(test-performer ${TEST_FILES})
@@ -80,4 +81,5 @@ foreach (target IN LISTS TARGETS)
     target_link_libraries(${target} PRIVATE impresario-utils)
     target_link_libraries(${target} PRIVATE ws2811)
     target_link_libraries(${target} PRIVATE zmq)
+    target_link_libraries(${target} PRIVATE pthread)
 endforeach ()

@@ -10,11 +10,12 @@ using namespace std;
 constexpr string_view LOGGER_NAME = "performer";
 
 // led performance
+constexpr int LED_COUNT = 60 * 3;
 constexpr int LED_MATRIX_INITIAL_BRIGHTNESS = 50;
-constexpr int MIN_TIME_BETWEEN_RENDER_CALLS = 2000;
-constexpr int TICK_INTERVAL_MICROSECONDS = 3000;
+constexpr int TICK_INTERVAL_MICROSECONDS = 2500;
 
 // network
 constexpr string_view CONDUCTOR_ENDPOINT = "tcp://10.0.0.181:44441";
+constexpr string_view ONSET_SUBSCRIPTION_FILTER = "";
 
 #endif //PERFORMER_CONFIG_H

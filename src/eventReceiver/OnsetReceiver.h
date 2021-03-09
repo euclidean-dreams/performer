@@ -2,6 +2,7 @@
 #define PERFORMER_ONSETRECEIVER_H
 
 #include <zmq.hpp>
+#include "Config.h"
 #include "EventReceiver.h"
 #include "event/OnsetEvent.h"
 
@@ -12,7 +13,7 @@ private:
     std::unique_ptr<NetworkSocket> inputSocket;
 
 public:
-    OnsetReceiver create(context_t context, const string &inputEndpoint, const string &subscriptionFilter);
+    static std::unique_ptr<OnsetReceiver> create(context_t &context, const string &inputEndpoint);
 
     explicit OnsetReceiver(std::unique_ptr<NetworkSocket> inputSocket);
 

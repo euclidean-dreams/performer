@@ -1,30 +1,29 @@
 #include "Ripple.h"
 
-Ripple::Ripple(uint32_t initialTick, LedMatrix &ledMatrix, int initialIndex, HSLColor initialColor, float speed)
-        : Action{initialTick},
-          ledMatrix{ledMatrix},
+Ripple::Ripple(LedMatrixProxy &ledMatrix, int initialIndex, Color::HSLColor initialColor, float speed)
+        : ledMatrix{ledMatrix},
           initialIndex{initialIndex},
-          shouldContinue{true},
           initialColor{initialColor},
-          speed{speed} {
+          speed{speed},
+          shouldContinue{true} {
 
 }
 
-void Ripple::execute(uint32_t tick) {
+void Ripple::execute() {
     if (shouldContinue) {
-        auto distanceFromCenter = static_cast<int>(roundf(static_cast<float>(tick - initialTick) * speed));
-        auto startIndex = initialIndex - distanceFromCenter;
+        auto rippleDistance = static_cast<int>(round(getElapsedTime(initialTimestamp) * speed / 1000));
+        auto startIndex = initialIndex - rippleDistance;
         if (startIndex < 0) {
             startIndex = 0;
         }
-        auto endIndex = initialIndex + distanceFromCenter;
-        if (endIndex >= ledMatrix.getLedCount()) {
-            endIndex = ledMatrix.getLedCount() - 1;
+        auto endIndex = initialIndex + rippleDistance;
+        if (endIndex >= ledMatrix.size()) {
+            endIndex = ledMatrix.size() - 1;
         }
         for (int index = startIndex; index <= endIndex; index++) {
             ledMatrix.modifyLed(index, initialColor);
         }
-        if (startIndex == 0 && endIndex == ledMatrix.getLedCount() - 1) {
+        if (startIndex == 0 && endIndex == ledMatrix.size() - 1) {
             shouldContinue = false;
         }
     }

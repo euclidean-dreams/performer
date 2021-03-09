@@ -33,40 +33,33 @@ Ws2812bLedMatrix::~Ws2812bLedMatrix() {
     ws2811_fini(&ledDriver);
 }
 
-uint32_t Ws2812bLedMatrix::formatColorForDriver(const RGBColor &color) {
-    auto result = static_cast<uint32_t>(color.getRed());
-    result <<= 0x8u;
-    result |= static_cast<uint32_t>(color.getGreen());
-    result <<= 0x8u;
-    result |= static_cast<uint32_t>(color.getBlue());
-    return result;
-}
-
 void Ws2812bLedMatrix::render() {
     ws2811_render(&ledDriver);
 }
 
-void Ws2812bLedMatrix::clear() {
-    for (int index = 0; index < ledCount; index++) {
-        modifyLed(index, RGBColor{0, 0, 0});
+void Ws2812bLedMatrix::consumeLedPacket(const LedPacket *ledPacket) {
+    if (ledPacket == nullptr) {
+        spdlog::get(static_cast<string>(LOGGER_NAME))->error("led matrix received a null led packet");
+        throw invalid_argument("led matrix received a null led packet");
     }
-}
-
-void Ws2812bLedMatrix::modifyLed(int index, HSLColor color) {
-    modifyLed(index, color.convertToRGB());
-}
-
-void Ws2812bLedMatrix::modifyLed(int index, RGBColor color) {
-    if (index < 0 || index > ledCount) {
+    auto leds = ledPacket->leds();
+    if (leds->size() != ledCount) {
         spdlog::get(static_cast<string>(LOGGER_NAME))->error(
-                "attempted to modify an led at an invalid index: {}", index
+                "led matrix received an improperly sized led packet of size: {}", leds->size()
         );
-        throw out_of_range("attempted to modify an led at an invalid index");
+        throw invalid_argument("led matrix received an improperly sized led packet");
     }
-    ledDriver.channel[pwmChannel].leds[index] = formatColorForDriver(color);
+    for (int index = 0; index < leds->size(); index++) {
+        auto rawColor = (*leds)[index];
+        ledDriver.channel[pwmChannel].leds[index] = formatColorForDriver(rawColor);
+    }
 }
 
-int Ws2812bLedMatrix::getLedCount() const {
-    return ledCount;
+uint32_t Ws2812bLedMatrix::formatColorForDriver(const ImpresarioSerialization::RGBColor *color) {
+    auto result = static_cast<uint32_t>(color->red());
+    result <<= 0x8u;
+    result |= static_cast<uint32_t>(color->green());
+    result <<= 0x8u;
+    result |= static_cast<uint32_t>(color->blue());
+    return result;
 }
-

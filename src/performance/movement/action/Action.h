@@ -1,19 +1,19 @@
 #ifndef PERFORMER_ACTION_H
 #define PERFORMER_ACTION_H
 
-#include <cstdint>
+#include "Utils.h"
 #include "NonCopyable.h"
 
 class Action : NonCopyable {
 protected:
-    uint32_t initialTick;
+    uint64_t initialTimestamp;
 
 public:
-    explicit Action(uint32_t initialTick) : initialTick{initialTick} {}
+    explicit Action() : initialTimestamp{getCurrentTime()} {}
 
     virtual ~Action() = default;
 
-    virtual void execute(uint32_t tick) = 0;
+    virtual void execute() = 0;
 
     virtual bool finished() = 0;
 };

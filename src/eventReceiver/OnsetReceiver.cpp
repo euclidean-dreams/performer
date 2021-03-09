@@ -1,9 +1,9 @@
 #include "OnsetReceiver.h"
 
-OnsetReceiver OnsetReceiver::create(context_t context, const string &inputEndpoint, const string &subscriptionFilter) {
+std::unique_ptr<OnsetReceiver> OnsetReceiver::create(context_t &context, const string &inputEndpoint) {
     auto socket = make_unique<NetworkSocket>(context, inputEndpoint, socket_type::sub, false);
-    socket->setSubscriptionFilter(subscriptionFilter);
-    return OnsetReceiver(move(socket));
+    socket->setSubscriptionFilter(static_cast<string>(ONSET_SUBSCRIPTION_FILTER));
+    return make_unique<OnsetReceiver>(move(socket));
 }
 
 OnsetReceiver::OnsetReceiver(std::unique_ptr<NetworkSocket> inputSocket)
@@ -17,7 +17,8 @@ std::unique_ptr<vector<std::unique_ptr<Event>>> OnsetReceiver::receive() {
     while (moreDataToCollect) {
         auto buffer = inputSocket->receiveBuffer(recv_flags::dontwait);
         if (buffer != nullptr) {
-            events->emplace_back(make_unique<OnsetEvent>(move(buffer)));
+            auto event = make_unique<OnsetEvent>(move(buffer));
+            events->push_back(move(event));
         } else {
             moreDataToCollect = false;
         }

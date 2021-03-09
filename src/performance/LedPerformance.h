@@ -1,44 +1,40 @@
 #ifndef PERFORMER_LEDPERFORMANCE_H
 #define PERFORMER_LEDPERFORMANCE_H
 
-#include <random>
-#include <chrono>
-#include <thread>
 #include <memory>
-#include <vector>
 #include <zmq.hpp>
 #include "Utils.h"
-#include "NetworkSocket.h"
 #include "RandomNumberGenerator.h"
-#include "AudioAttributes_generated.h"
-#include "ledMatrix/Ws2812bLedMatrix.h"
 #include "Performance.h"
-#include "performance/movement/LoggingMovement.h"
-#include "performance/movement/RippleMovement.h"
-#include "performance/movement/BeatMovement.h"
+#include "eventReceiver/EventReceiver.h"
+#include "movement/Movement.h"
+#include "movement/RippleMovement.h"
+#include "eventReceiver/OnsetReceiver.h"
+#include "color/HSLColor.h"
+#include "ledMatrix/LedMatrix.h"
+#include "ledMatrix/LedMatrixProxy.h"
 
-using namespace std;
-using namespace std::this_thread;
-using namespace std::chrono;
-using namespace zmq;
-using namespace ImpresarioSerialization;
+using namespace flatbuffers;
 
 class LedPerformance : public Performance {
 private:
-    uint32_t tick;
-    vector<std::unique_ptr<Movement>> eventReceivers;
+    std::unique_ptr<NetworkSocket> ledPacketOutputSocket;
+    vector<std::unique_ptr<EventReceiver>> eventReceivers;
     vector<std::unique_ptr<Movement>> movements;
-    Ws2812bLedMatrix ledMatrix;
     RandomNumberGenerator randomNumberGenerator;
-    NetworkSocket audioAttributeSocket;
-    uint64_t lastFlip;
+    LedMatrixProxy ledMatrix;
 
 public:
-    explicit LedPerformance(context_t &context, const string &audioAttributeEndpoint);
+    explicit LedPerformance(std::unique_ptr<OnsetReceiver> onsetReceiver,
+                            std::unique_ptr<NetworkSocket> ledPacketOutputSocket, uint ledCount);
 
     void perform() override;
 
+    void handleEvents();
 
+    void conductMovements();
+
+    void sendLedPacket();
 };
 
 #endif //PERFORMER_LEDPERFORMANCE_H

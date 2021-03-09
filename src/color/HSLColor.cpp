@@ -1,4 +1,5 @@
 #include "HSLColor.h"
+using namespace Color;
 
 HSLColor::HSLColor(uint32_t hue, uint8_t saturation, uint8_t lightness)
         : hue{hue},

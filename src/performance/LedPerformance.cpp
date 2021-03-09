@@ -1,63 +1,55 @@
 #include "LedPerformance.h"
 
-LedPerformance::LedPerformance(context_t &context, const string &audioAttributeEndpoint)
-        : tick{0},
+LedPerformance::LedPerformance(std::unique_ptr<OnsetReceiver> onsetReceiver,
+                               std::unique_ptr<NetworkSocket> ledPacketOutputSocket, uint ledCount)
+        : ledPacketOutputSocket{move(ledPacketOutputSocket)},
+          eventReceivers{},
           movements{},
-          ledMatrix{18, 0, 60 * 4},
           randomNumberGenerator{},
-          audioAttributeSocket{context, audioAttributeEndpoint, socket_type::sub, false},
-          lastFlip{getCurrentTime()} {
-    audioAttributeSocket.setSubscriptionFilter("");
-    movements.emplace_back(make_unique<LoggingMovement>(ledMatrix));
-    movements.emplace_back(make_unique<RippleMovement>(ledMatrix, randomNumberGenerator));
+          ledMatrix{ledCount} {
+    eventReceivers.push_back(move(onsetReceiver));
+    auto rippleMovement = make_unique<RippleMovement>(ledMatrix, randomNumberGenerator);
+    movements.push_back(move(rippleMovement));
 }
 
 void LedPerformance::perform() {
-    ledMatrix.clear();
-    while (true) {
-        auto startTime = getCurrentTime();
-        unique_ptr<char[]> buffer;
-        auto possibleNewerBuffer = audioAttributeSocket.receiveBuffer(recv_flags::dontwait);
-        while (possibleNewerBuffer != nullptr) {
-            buffer = move(possibleNewerBuffer);
-            possibleNewerBuffer = audioAttributeSocket.receiveBuffer(recv_flags::dontwait);
-        }
-        const AudioAttributes *audioAttributes = nullptr;
-        if (buffer != nullptr) {
-            audioAttributes = GetAudioAttributes(buffer.get());
-        }
-        if (audioAttributes != nullptr) {
-            auto onsetAggregate = audioAttributes->onsetAggregate();
-            auto onsetsDetected = 0;
-            for (int i = 0; i < onsetAggregate->methods()->size(); i++) {
-                auto timestamp = (*onsetAggregate->timestamps())[i];
-                if (timestamp > 0 && getCurrentTime() - timestamp < 10000) {
-                    onsetsDetected++;
-                }
-            }
-            if (onsetsDetected > 6 && getCurrentTime() - lastFlip > 3 * 1000 * 1000) {
-                movements.pop_back();
-                if (randomNumberGenerator.generate(5) == 0) {
-                    movements.emplace_back(make_unique<BeatMovement>(ledMatrix, randomNumberGenerator));
-                } else {
-                    movements.emplace_back(make_unique<RippleMovement>(ledMatrix, randomNumberGenerator));
-                }
-                lastFlip = getCurrentTime();
-            }
-        }
-        for (auto &movement: movements) {
-            movement->present(tick, audioAttributes);
-        }
+    handleEvents();
+    conductMovements();
+    sendLedPacket();
+}
 
-        auto performanceTime = getCurrentTime() - startTime;
-        if (MIN_TIME_BETWEEN_RENDER_CALLS > performanceTime) {
-            sleep_for(microseconds(MIN_TIME_BETWEEN_RENDER_CALLS - performanceTime));
-        }
-        ledMatrix.render();
-        tick++;
-        auto cycleTime = getCurrentTime() - startTime;
-        if (TICK_INTERVAL_MICROSECONDS > cycleTime) {
-            sleep_for(microseconds(TICK_INTERVAL_MICROSECONDS - cycleTime));
+void LedPerformance::handleEvents() {
+    for (auto &receiver: eventReceivers) {
+        auto events = receiver->receive();
+        for (auto &event: *events) {
+            for (auto &movement: movements) {
+                movement->handleEvent(*event);
+            }
         }
     }
 }
+
+void LedPerformance::conductMovements() {
+    for (auto &movement: movements) {
+        movement->conduct();
+    }
+}
+
+void LedPerformance::sendLedPacket() {
+    auto a = ledPacketOutputSocket->receive(recv_flags::dontwait);
+    if (!a->empty()) {
+        FlatBufferBuilder builder{};
+        vector<ImpresarioSerialization::RGBColor> leds;
+        for (int i = 0; i < ledMatrix.size(); i++) {
+            auto color = ledMatrix[i];
+            auto serializedColor = ImpresarioSerialization::RGBColor(color.getRed(), color.getGreen(), color.getBlue());
+            leds.push_back(serializedColor);
+        }
+        auto serializedLeds = builder.CreateVectorOfStructs(leds);
+        auto ledPacket = CreateLedPacket(builder, serializedLeds);
+        builder.Finish(ledPacket);
+        multipart_t message{builder.GetBufferPointer(), builder.GetSize()};
+        ledPacketOutputSocket->send(message);
+    }
+}
+
