@@ -1,27 +1,32 @@
 #include "OnsetReceiver.h"
 
-std::unique_ptr<OnsetReceiver> OnsetReceiver::create(context_t &context, const string &inputEndpoint) {
-    auto socket = make_unique<NetworkSocket>(context, inputEndpoint, socket_type::sub, false);
-    socket->setSubscriptionFilter(static_cast<string>(ONSET_SUBSCRIPTION_FILTER));
-    return make_unique<OnsetReceiver>(move(socket));
+namespace performer {
+
+std::unique_ptr<OnsetReceiver> OnsetReceiver::create(zmq::context_t &context, const std::string &inputEndpoint) {
+    auto socket = std::make_unique<impresarioUtils::NetworkSocket>(context, inputEndpoint, zmq::socket_type::sub,
+                                                                   false);
+    socket->setSubscriptionFilter(static_cast<std::string>(ONSET_SUBSCRIPTION_FILTER));
+    return std::make_unique<OnsetReceiver>(move(socket));
 }
 
-OnsetReceiver::OnsetReceiver(std::unique_ptr<NetworkSocket> inputSocket)
+OnsetReceiver::OnsetReceiver(std::unique_ptr<impresarioUtils::NetworkSocket> inputSocket)
         : inputSocket{move(inputSocket)} {
 
 }
 
-std::unique_ptr<vector<std::unique_ptr<Event>>> OnsetReceiver::receive() {
-    auto events = make_unique<vector<std::unique_ptr<Event>>>();
+std::unique_ptr<std::vector<std::unique_ptr<Event>>> OnsetReceiver::receive() {
+    auto events = std::make_unique<std::vector<std::unique_ptr<Event>>>();
     auto moreDataToCollect = true;
     while (moreDataToCollect) {
-        auto buffer = inputSocket->receiveBuffer(recv_flags::dontwait);
+        auto buffer = inputSocket->receiveBuffer(zmq::recv_flags::dontwait);
         if (buffer != nullptr) {
-            auto event = make_unique<OnsetEvent>(move(buffer));
+            auto event = std::make_unique<OnsetEvent>(move(buffer));
             events->push_back(move(event));
         } else {
             moreDataToCollect = false;
         }
     }
     return events;
+}
+
 }

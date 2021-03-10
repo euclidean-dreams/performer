@@ -31,30 +31,31 @@ integrate_cmake_dependency(
 set(
         SOURCE_FILES
         src/Config.h
+        src/Bootstrapper.cpp src/Bootstrapper.h
 
         src/color/HSLColor.cpp src/color/HSLColor.h
-        src/color/RGBColor.h
 
         src/ledMatrix/LedMatrix.h
+        src/ledMatrix/LedMatrixProxy.cpp src/ledMatrix/LedMatrixProxy.h
+        src/ledMatrix/LedMatrixRenderer.cpp src/ledMatrix/LedMatrixRenderer.h
         src/ledMatrix/Ws2812bLedMatrix.cpp src/ledMatrix/Ws2812bLedMatrix.h
 
         src/performance/Performance.h
         src/performance/LedPerformance.cpp src/performance/LedPerformance.h
 
         src/performance/movement/Movement.h
+        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
 
         src/performance/movement/action/Action.h
-        src/eventReceiver/OnsetReceiver.cpp src/eventReceiver/OnsetReceiver.h
-        src/eventReceiver/EventReceiver.h
-        src/eventReceiver/event/Event.h
-
         src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
 
-        src/eventReceiver/event/OnsetEvent.h src/eventReceiver/event/OnsetEvent.cpp
-        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
-        src/ledMatrix/LedMatrixProxy.cpp src/ledMatrix/LedMatrixProxy.h
+        src/eventReceiver/EventReceiver.h
+        src/eventReceiver/OnsetReceiver.cpp src/eventReceiver/OnsetReceiver.h
 
-        src/ledMatrix/LedMatrixRenderer.cpp src/ledMatrix/LedMatrixRenderer.h)
+        src/eventReceiver/event/Event.h
+        src/eventReceiver/event/OnsetEvent.h src/eventReceiver/event/OnsetEvent.cpp
+
+)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
@@ -65,7 +66,6 @@ set(
         test/TestingUtils.h
 
         test/color/TestHSLColor.cpp
-        test/color/TestRGBColor.cpp
 
 )
 list(APPEND TARGETS test-performer)

@@ -2,25 +2,27 @@
 #define PERFORMER_LEDMATRIXPROXY_H
 
 #include <vector>
-#include "NonCopyable.h"
+#include <sstream>
+#include <NonCopyable.h>
+#include <LedPacket_generated.h>
 #include "color/HSLColor.h"
-#include "color/RGBColor.h"
 
-class LedMatrixProxy : NonCopyable {
+namespace performer {
+
+class LedMatrixProxy : impresarioUtils::NonCopyable {
 private:
-    vector<Color::RGBColor> matrix;
+    std::vector<HSLColor> matrix;
 
 public:
     explicit LedMatrixProxy(uint ledCount);
 
-    Color::RGBColor operator[](int index);
-
-    void modifyLed(int index, Color::HSLColor color);
-
-    void modifyLed(int index, Color::RGBColor color);
+    HSLColor &operator[](int index);
 
     int size() const;
 
+    std::unique_ptr<flatbuffers::FlatBufferBuilder> generateLedPacket() const;
 };
+
+}
 
 #endif //PERFORMER_LEDMATRIXPROXY_H

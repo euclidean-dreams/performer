@@ -1,5 +1,7 @@
 #include "Ws2812bLedMatrix.h"
 
+namespace performer {
+
 Ws2812bLedMatrix::Ws2812bLedMatrix(int gpioNum, int pwmChannel, int ledCount)
         : ledDriver{},
           pwmChannel{pwmChannel},
@@ -13,8 +15,9 @@ Ws2812bLedMatrix::Ws2812bLedMatrix(int gpioNum, int pwmChannel, int ledCount)
         unusedPwmChannel = 0;
         ledDriver.dmanum = 11;
     } else {
-        spdlog::get(static_cast<string>(LOGGER_NAME))->error("invalid pwm channel: {}", pwmChannel);
-        throw out_of_range("invalid pwm channel");
+        std::ostringstream errorMessage;
+        errorMessage << "invalid pwm channel: " << pwmChannel;
+        throw std::out_of_range(errorMessage.str());
     }
     ledDriver.channel[pwmChannel].gpionum = gpioNum;
     ledDriver.channel[pwmChannel].count = ledCount;
@@ -37,17 +40,15 @@ void Ws2812bLedMatrix::render() {
     ws2811_render(&ledDriver);
 }
 
-void Ws2812bLedMatrix::consumeLedPacket(const LedPacket *ledPacket) {
+void Ws2812bLedMatrix::consumeLedPacket(const ImpresarioSerialization::LedPacket *ledPacket) {
     if (ledPacket == nullptr) {
-        spdlog::get(static_cast<string>(LOGGER_NAME))->error("led matrix received a null led packet");
-        throw invalid_argument("led matrix received a null led packet");
+        throw std::invalid_argument("led matrix received a null led packet");
     }
     auto leds = ledPacket->leds();
     if (leds->size() != ledCount) {
-        spdlog::get(static_cast<string>(LOGGER_NAME))->error(
-                "led matrix received an improperly sized led packet of size: {}", leds->size()
-        );
-        throw invalid_argument("led matrix received an improperly sized led packet");
+        std::ostringstream errorMessage;
+        errorMessage << "led matrix received an led packet of size: " << leds->size() << ", expecting: " << ledCount;
+        throw std::invalid_argument(errorMessage.str());
     }
     for (int index = 0; index < leds->size(); index++) {
         auto rawColor = (*leds)[index];
@@ -62,4 +63,6 @@ uint32_t Ws2812bLedMatrix::formatColorForDriver(const ImpresarioSerialization::R
     result <<= 0x8u;
     result |= static_cast<uint32_t>(color->blue());
     return result;
+}
+
 }

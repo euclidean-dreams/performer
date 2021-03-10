@@ -2,28 +2,30 @@
 #define PERFORMER_HSLCOLOR_H
 
 #include <cstdint>
-#include <spdlog/spdlog.h>
-#include "Config.h"
-#include "RGBColor.h"
+#include <cmath>
+#include <sstream>
+#include <RGBColor_generated.h>
 
-namespace Color {
-    class HSLColor {
-    private:
-        uint32_t hue;
-        uint8_t saturation;
-        uint8_t lightness;
+namespace performer {
 
-    public:
-        HSLColor(uint32_t hue, uint8_t saturation, uint8_t lightness);
+class HSLColor {
+private:
+    uint32_t hue;
+    uint8_t saturation;
+    uint8_t lightness;
 
-        inline uint32_t getHue() const { return hue; }
+public:
+    HSLColor(uint32_t hue, uint8_t saturation, uint8_t lightness);
 
-        inline uint8_t getSaturation() const { return saturation; }
+    uint32_t getHue() const;
 
-        inline uint8_t getLightness() const { return lightness; }
+    uint8_t getSaturation() const;
 
-        RGBColor convertToRGB() const;
-    };
+    uint8_t getLightness() const;
+
+    ImpresarioSerialization::RGBColor convertToRGB() const;
+};
+
 }
 
 #endif //PERFORMER_HSLCOLOR_H

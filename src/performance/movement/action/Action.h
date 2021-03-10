@@ -1,15 +1,17 @@
 #ifndef PERFORMER_ACTION_H
 #define PERFORMER_ACTION_H
 
-#include "Utils.h"
-#include "NonCopyable.h"
+#include <Time.h>
+#include <NonCopyable.h>
 
-class Action : NonCopyable {
+namespace performer {
+
+class Action : impresarioUtils::NonCopyable {
 protected:
     uint64_t initialTimestamp;
 
 public:
-    explicit Action() : initialTimestamp{getCurrentTime()} {}
+    explicit Action() : initialTimestamp{impresarioUtils::getCurrentTime()} {}
 
     virtual ~Action() = default;
 
@@ -17,5 +19,7 @@ public:
 
     virtual bool finished() = 0;
 };
+
+}
 
 #endif //PERFORMER_ACTION_H

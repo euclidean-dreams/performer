@@ -1,16 +1,19 @@
 #include "OnsetEvent.h"
 
+namespace performer {
+
 OnsetEvent::OnsetEvent(std::unique_ptr<char[]> buffer)
         : buffer{move(buffer)},
-          onset{GetOnset(this->buffer.get())} {
+          serializedOnset{ImpresarioSerialization::GetOnset(this->buffer.get())} {
 
 }
 
 uint64_t OnsetEvent::getTimestamp() {
-    return onset->timestamp();
+    return serializedOnset->timestamp();
 }
 
-OnsetMethod OnsetEvent::getMethod() {
-    return onset->method();
+ImpresarioSerialization::OnsetMethod OnsetEvent::getMethod() {
+    return serializedOnset->method();
 }
 
+}

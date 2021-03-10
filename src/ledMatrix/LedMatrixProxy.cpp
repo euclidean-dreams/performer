@@ -1,29 +1,35 @@
 #include "LedMatrixProxy.h"
 
+namespace performer {
+
 LedMatrixProxy::LedMatrixProxy(uint ledCount)
-        : matrix{ledCount, Color::RGBColor{0, 0, 0}} {
+        : matrix{ledCount, HSLColor{0, 0, 0}} {
 
 }
 
-Color::RGBColor LedMatrixProxy::operator[](int index) {
-    return matrix[index];
-}
-
-void LedMatrixProxy::modifyLed(int index, Color::HSLColor color) {
-    modifyLed(index, color.convertToRGB());
-}
-
-void LedMatrixProxy::modifyLed(int index, Color::RGBColor color) {
+HSLColor &LedMatrixProxy::operator[](int index) {
     if (index < 0 || index >= matrix.size()) {
-        spdlog::get(static_cast<string>(LOGGER_NAME))->error(
-                "attempted to modify an led at an invalid index: {}", index
-        );
-        throw out_of_range("attempted to modify an led at an invalid index");
-    } else {
-        matrix[index] = color;
+        std::ostringstream errorMessage;
+        errorMessage << "attempted to modify an led at an invalid index: " << index;
+        throw std::out_of_range(errorMessage.str());
     }
+    return matrix[index];
 }
 
 int LedMatrixProxy::size() const {
     return matrix.size();
+}
+
+std::unique_ptr<flatbuffers::FlatBufferBuilder> LedMatrixProxy::generateLedPacket() const {
+    auto builder = std::make_unique<flatbuffers::FlatBufferBuilder>();
+    std::vector<ImpresarioSerialization::RGBColor> leds;
+    for (auto &color : matrix) {
+        leds.push_back(color.convertToRGB());
+    }
+    auto serializedLeds = builder->CreateVectorOfStructs(leds);
+    auto ledPacket = ImpresarioSerialization::CreateLedPacket(*builder, serializedLeds);
+    builder->Finish(ledPacket);
+    return builder;
+}
+
 }

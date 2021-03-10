@@ -1,12 +1,12 @@
 #ifndef PERFORMER_WS2812BLEDMATRIX_H
 #define PERFORMER_WS2812BLEDMATRIX_H
 
-#include <spdlog/spdlog.h>
+#include <sstream>
 #include <ws2811.h>
 #include "Config.h"
-#include "LedMatrix.h"
+#include "ledMatrix/LedMatrix.h"
 
-using namespace std;
+namespace performer {
 
 class Ws2812bLedMatrix : public LedMatrix {
 private:
@@ -23,7 +23,9 @@ public:
 
     void render() override;
 
-    void consumeLedPacket(const LedPacket *ledPacket) override;
+    void consumeLedPacket(const ImpresarioSerialization::LedPacket *ledPacket) override;
 };
+
+}
 
 #endif //PERFORMER_WS2812BLEDMATRIX_H

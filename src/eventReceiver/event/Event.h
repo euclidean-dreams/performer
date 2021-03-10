@@ -1,11 +1,15 @@
 #ifndef PERFORMER_EVENT_H
 #define PERFORMER_EVENT_H
 
-#include "NonCopyable.h"
+#include <NonCopyable.h>
 
-class Event : NonCopyable {
+namespace performer {
+
+class Event : impresarioUtils::NonCopyable {
 public:
     virtual ~Event() = default;
 };
+
+}
 
 #endif //PERFORMER_EVENT_H

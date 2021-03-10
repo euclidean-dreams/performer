@@ -1,14 +1,16 @@
 #include "LedPerformance.h"
 
+namespace performer {
+
 LedPerformance::LedPerformance(std::unique_ptr<OnsetReceiver> onsetReceiver,
-                               std::unique_ptr<NetworkSocket> ledPacketOutputSocket, uint ledCount)
+                               std::unique_ptr<impresarioUtils::NetworkSocket> ledPacketOutputSocket, uint ledCount)
         : ledPacketOutputSocket{move(ledPacketOutputSocket)},
           eventReceivers{},
           movements{},
           randomNumberGenerator{},
           ledMatrix{ledCount} {
     eventReceivers.push_back(move(onsetReceiver));
-    auto rippleMovement = make_unique<RippleMovement>(ledMatrix, randomNumberGenerator);
+    auto rippleMovement = std::make_unique<RippleMovement>(ledMatrix, randomNumberGenerator);
     movements.push_back(move(rippleMovement));
 }
 
@@ -36,20 +38,12 @@ void LedPerformance::conductMovements() {
 }
 
 void LedPerformance::sendLedPacket() {
-    auto a = ledPacketOutputSocket->receive(recv_flags::dontwait);
+    auto a = ledPacketOutputSocket->receive(zmq::recv_flags::dontwait);
     if (!a->empty()) {
-        FlatBufferBuilder builder{};
-        vector<ImpresarioSerialization::RGBColor> leds;
-        for (int i = 0; i < ledMatrix.size(); i++) {
-            auto color = ledMatrix[i];
-            auto serializedColor = ImpresarioSerialization::RGBColor(color.getRed(), color.getGreen(), color.getBlue());
-            leds.push_back(serializedColor);
-        }
-        auto serializedLeds = builder.CreateVectorOfStructs(leds);
-        auto ledPacket = CreateLedPacket(builder, serializedLeds);
-        builder.Finish(ledPacket);
-        multipart_t message{builder.GetBufferPointer(), builder.GetSize()};
+        auto ledPacket = ledMatrix.generateLedPacket();
+        zmq::multipart_t message{ledPacket->GetBufferPointer(), ledPacket->GetSize()};
         ledPacketOutputSocket->send(message);
     }
 }
 
+}

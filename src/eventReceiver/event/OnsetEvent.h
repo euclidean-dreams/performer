@@ -1,23 +1,25 @@
 #ifndef PERFORMER_ONSETEVENT_H
 #define PERFORMER_ONSETEVENT_H
 
-#include "Event.h"
-#include "Onset_generated.h"
+#include <Onset_generated.h>
+#include "eventReceiver/event/Event.h"
 
-using namespace ImpresarioSerialization;
+namespace performer {
 
 class OnsetEvent : public Event {
 private:
     std::unique_ptr<char[]> buffer;
-    const Onset *onset;
+    const ImpresarioSerialization::Onset *serializedOnset;
 
 public:
     explicit OnsetEvent(std::unique_ptr<char[]> buffer);
 
     uint64_t getTimestamp();
 
-    OnsetMethod getMethod();
+    ImpresarioSerialization::OnsetMethod getMethod();
 
 };
+
+}
 
 #endif //PERFORMER_ONSETEVENT_H

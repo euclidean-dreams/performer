@@ -1,33 +1,36 @@
 #ifndef PERFORMER_RIPPLEMOVEMENT_H
 #define PERFORMER_RIPPLEMOVEMENT_H
 
+#include <memory>
 #include <list>
-#include "action/Action.h"
-#include "action/Ripple.h"
-#include "RandomNumberGenerator.h"
-#include "color/HSLColor.h"
-#include "ledMatrix/LedMatrixProxy.h"
-#include "Movement.h"
+#include <RandomNumberGenerator.h>
 #include "eventReceiver/event/OnsetEvent.h"
+#include "ledMatrix/LedMatrixProxy.h"
+#include "performance/movement/Movement.h"
+#include "performance/movement/action/Ripple.h"
+
+namespace performer {
 
 class RippleMovement : public Movement {
 private:
     LedMatrixProxy &ledMatrix;
-    RandomNumberGenerator &randomNumberGenerator;
-    list<std::unique_ptr<Action>> actions;
-    Color::HSLColor lastColor;
+    impresarioUtils::RandomNumberGenerator &randomNumberGenerator;
+    std::list<std::unique_ptr<Action>> actions;
+    HSLColor lastColor;
     int mode;
 
     void createRipple(const OnsetEvent &event);
 
-    Color::HSLColor generateRippleColor();
+    HSLColor generateRippleColor();
 
 public:
-    RippleMovement(LedMatrixProxy &ledMatrix, RandomNumberGenerator &randomNumberGenerator);
+    RippleMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);
 
     void handleEvent(const Event &event) override;
 
     void conduct() override;
 };
+
+}
 
 #endif //PERFORMER_RIPPLEMOVEMENT_H

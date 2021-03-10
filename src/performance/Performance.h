@@ -1,13 +1,17 @@
 #ifndef PERFORMER_PERFORMANCE_H
 #define PERFORMER_PERFORMANCE_H
 
-#include "NonCopyable.h"
+#include <NonCopyable.h>
 
-class Performance : NonCopyable {
+namespace performer {
+
+class Performance : impresarioUtils::NonCopyable {
 public:
     virtual ~Performance() = default;
 
     virtual void perform() = 0;
 };
+
+}
 
 #endif //PERFORMER_PERFORMANCE_H

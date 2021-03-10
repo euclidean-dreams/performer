@@ -2,29 +2,35 @@
 #define PERFORMER_LEDMATRIXRENDERER_H
 
 #include <thread>
-#include "Utils.h"
-#include "NetworkSocket.h"
-#include "LedPacket_generated.h"
+#include <chrono>
+#include <zmq.hpp>
+#include <NetworkSocket.h>
+#include <Time.h>
+#include <NonCopyable.h>
+#include <LedPacket_generated.h>
 #include "Config.h"
-#include "LedMatrix.h"
+#include "ledMatrix/LedMatrix.h"
 
-using namespace ImpresarioSerialization;
+namespace performer {
 
-class LedMatrixRenderer {
+class LedMatrixRenderer : impresarioUtils::NonCopyable {
 private:
     std::unique_ptr<LedMatrix> ledMatrix;
-    std::unique_ptr<NetworkSocket> inputSocket;
+    std::unique_ptr<impresarioUtils::NetworkSocket> inputSocket;
 
     std::unique_ptr<char[]> receiveLedPacketBuffer();
 
 public:
-    LedMatrixRenderer(std::unique_ptr<LedMatrix> ledMatrix, std::unique_ptr<NetworkSocket> inputSocket);
+    static void startRenderLoop(LedMatrixRenderer &ledMatrixRenderer);
+
+    LedMatrixRenderer(std::unique_ptr<LedMatrix> ledMatrix,
+                      std::unique_ptr<impresarioUtils::NetworkSocket> inputSocket);
 
     void render();
 
     bool finished();
-
-    static void startRenderLoop(LedMatrixRenderer &ledMatrixRenderer);
 };
+
+}
 
 #endif //PERFORMER_LEDMATRIXRENDERER_H

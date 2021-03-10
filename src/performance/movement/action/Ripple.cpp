@@ -1,6 +1,8 @@
 #include "Ripple.h"
 
-Ripple::Ripple(LedMatrixProxy &ledMatrix, int initialIndex, Color::HSLColor initialColor, float speed)
+namespace performer {
+
+Ripple::Ripple(LedMatrixProxy &ledMatrix, int initialIndex, HSLColor initialColor, float speed)
         : ledMatrix{ledMatrix},
           initialIndex{initialIndex},
           initialColor{initialColor},
@@ -11,7 +13,8 @@ Ripple::Ripple(LedMatrixProxy &ledMatrix, int initialIndex, Color::HSLColor init
 
 void Ripple::execute() {
     if (shouldContinue) {
-        auto rippleDistance = static_cast<int>(round(getElapsedTime(initialTimestamp) * speed / 1000));
+        auto elapsedTime = impresarioUtils::getElapsedTime(initialTimestamp);
+        auto rippleDistance = static_cast<int>(std::roundf(elapsedTime * speed / 1000));
         auto startIndex = initialIndex - rippleDistance;
         if (startIndex < 0) {
             startIndex = 0;
@@ -21,7 +24,7 @@ void Ripple::execute() {
             endIndex = ledMatrix.size() - 1;
         }
         for (int index = startIndex; index <= endIndex; index++) {
-            ledMatrix.modifyLed(index, initialColor);
+            ledMatrix[index] = initialColor;
         }
         if (startIndex == 0 && endIndex == ledMatrix.size() - 1) {
             shouldContinue = false;
@@ -31,4 +34,6 @@ void Ripple::execute() {
 
 bool Ripple::finished() {
     return !shouldContinue;
+}
+
 }
