@@ -7,14 +7,19 @@ RippleMovement::RippleMovement(LedMatrixProxy &ledMatrix, impresarioUtils::Rando
           randomNumberGenerator{randomNumberGenerator},
           actions{},
           lastColor{0, 0, 0},
-          mode{randomNumberGenerator.generate(2)} {
+          mode{randomNumberGenerator.generate(2)},
+          lastRipple{0},
+          minTimeBetweenRipples{3000} {
 
 }
 
 void RippleMovement::handleEvent(const Event &event) {
     if (dynamic_cast<const OnsetEvent *>(&event) != nullptr) {
         auto &onsetEvent = dynamic_cast<const OnsetEvent &>(event);
-        createRipple(onsetEvent);
+        if (impresarioUtils::getElapsedTime(lastRipple) > minTimeBetweenRipples) {
+            createRipple(onsetEvent);
+            lastRipple = impresarioUtils::getCurrentTime();
+        }
     }
 }
 

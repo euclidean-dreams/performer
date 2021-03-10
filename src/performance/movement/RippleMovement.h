@@ -18,6 +18,8 @@ private:
     std::list<std::unique_ptr<Action>> actions;
     HSLColor lastColor;
     int mode;
+    uint64_t lastRipple;
+    int minTimeBetweenRipples;
 
     void createRipple(const OnsetEvent &event);
 
