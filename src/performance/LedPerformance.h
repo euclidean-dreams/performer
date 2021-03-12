@@ -1,6 +1,7 @@
 #ifndef PERFORMER_LEDPERFORMANCE_H
 #define PERFORMER_LEDPERFORMANCE_H
 
+#include <thread>
 #include <zmq.hpp>
 #include <NetworkSocket.h>
 #include <RandomNumberGenerator.h>

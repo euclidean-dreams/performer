@@ -18,6 +18,7 @@ void LedPerformance::perform() {
     handleEvents();
     conductMovements();
     sendLedPacket();
+    std::this_thread::sleep_for(std::chrono::microseconds(PERFORMANCE_WAKE_INTERVAL));
 }
 
 void LedPerformance::handleEvents() {
