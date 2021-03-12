@@ -7,6 +7,7 @@
 #include <RandomNumberGenerator.h>
 #include "eventReceiver/OnsetReceiver.h"
 #include "performance/Performance.h"
+#include "performance/movement/LoggingMovement.h"
 #include "performance/movement/RippleMovement.h"
 
 namespace performer {

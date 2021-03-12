@@ -12,6 +12,8 @@ LedPerformance::LedPerformance(std::unique_ptr<OnsetReceiver> onsetReceiver,
     eventReceivers.push_back(move(onsetReceiver));
     auto rippleMovement = std::make_unique<RippleMovement>(ledMatrix, randomNumberGenerator);
     movements.push_back(move(rippleMovement));
+    auto loggingMovement = std::make_unique<LoggingMovement>();
+    movements.push_back(move(loggingMovement));
 }
 
 void LedPerformance::perform() {

@@ -45,6 +45,7 @@ set(
 
         src/performance/movement/Movement.h
         src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
+        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h
 
         src/performance/movement/action/Action.h
         src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h

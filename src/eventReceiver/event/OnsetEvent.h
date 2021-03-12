@@ -14,10 +14,11 @@ private:
 public:
     explicit OnsetEvent(std::unique_ptr<char[]> buffer);
 
-    uint64_t getTimestamp();
+    uint64_t getTimestamp() const;
 
-    ImpresarioSerialization::OnsetMethod getMethod();
+    ImpresarioSerialization::OnsetMethod getMethod() const;
 
+    uint64_t getSampleTimestamp() const;
 };
 
 }
