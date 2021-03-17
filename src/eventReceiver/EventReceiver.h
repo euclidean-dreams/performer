@@ -1,17 +1,21 @@
 #ifndef PERFORMER_EVENTRECEIVER_H
 #define PERFORMER_EVENTRECEIVER_H
 
-#include <vector>
+#include <NetworkSocket.h>
 #include <NonCopyable.h>
-#include "eventReceiver/event/Event.h"
+#include "Event.h"
+#include "eventReceiver/EventCollection.h"
 
 namespace performer {
 
 class EventReceiver : impresarioUtils::NonCopyable {
-public:
-    virtual ~EventReceiver() = default;
+private:
+    std::unique_ptr<impresarioUtils::NetworkSocket> input;
 
-    virtual std::unique_ptr<std::vector<std::unique_ptr<Event>>> receive() = 0;
+public:
+    explicit EventReceiver(std::unique_ptr<impresarioUtils::NetworkSocket> input);
+
+    std::unique_ptr<EventCollection> receive();
 };
 
 }

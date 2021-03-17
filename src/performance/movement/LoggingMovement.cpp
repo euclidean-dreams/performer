@@ -8,12 +8,18 @@ LoggingMovement::LoggingMovement()
 }
 
 void LoggingMovement::handleEvent(const Event &event) {
-    if (dynamic_cast<const OnsetEvent *>(&event) != nullptr) {
-        auto &onsetEvent = dynamic_cast<const OnsetEvent &>(event);
-        auto methodName = ImpresarioSerialization::EnumNameOnsetMethod(onsetEvent.getMethod());
-        auto elapsedTime = impresarioUtils::getElapsedTime(onsetEvent.getTimestamp());
-        auto latency = impresarioUtils::getElapsedTime(onsetEvent.getSampleTimestamp());
+    if (event.getIdentifier() == ImpresarioSerialization::Identifier::onset) {
+        auto onset = event.getOnset();
+        auto methodName = ImpresarioSerialization::EnumNameOnsetMethod(onset->method());
+        auto elapsedTime = impresarioUtils::getElapsedTime(onset->timestamp());
+        auto latency = impresarioUtils::getElapsedTime(onset->sampleTimestamp());
         logger->info("onset received, method: {}, time since onset: {}, latency: {}", methodName, elapsedTime, latency);
+    } else if (event.getIdentifier() == ImpresarioSerialization::Identifier::pitch) {
+        auto pitch = event.getPitch();
+        auto methodName = ImpresarioSerialization::EnumNamePitchMethod(pitch->method());
+        auto latency = impresarioUtils::getElapsedTime(pitch->sampleTimestamp());
+        logger->info("pitch received, method: {}, pitch: {}, confidence: {}, latency: {}",
+                     methodName, pitch->pitch(), pitch->confidence(), latency);
     }
 }
 

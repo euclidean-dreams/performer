@@ -1,7 +1,7 @@
 #ifndef PERFORMER_LEDMATRIX_H
 #define PERFORMER_LEDMATRIX_H
 
-#include <LedPacket_generated.h>
+#include "ledMatrix/LedMatrixProxy.h"
 #include <NonCopyable.h>
 
 namespace performer {
@@ -12,7 +12,7 @@ public:
 
     virtual void render() = 0;
 
-    virtual void consumeLedPacket(const ImpresarioSerialization::LedPacket *ledPacket) = 0;
+    virtual void update(LedMatrixProxy &proxy) = 0;
 };
 
 }

@@ -24,7 +24,15 @@ void Ripple::execute() {
             endIndex = ledMatrix.size() - 1;
         }
         for (int index = startIndex; index <= endIndex; index++) {
-            ledMatrix[index] = initialColor;
+            auto lightness = 50 - std::abs(index - initialIndex) * 3;
+            auto saturation = 100 - std::abs(index - initialIndex) * 1;
+            if (lightness < 0) {
+                lightness = 0;
+            }
+            if (saturation < 0) {
+                saturation = 0;
+            }
+            ledMatrix[index] = HSLColor{initialColor.getHue(), static_cast<uint8_t>(saturation), static_cast<uint8_t>(lightness)};
         }
         if (startIndex == 0 && endIndex == ledMatrix.size() - 1) {
             shouldContinue = false;

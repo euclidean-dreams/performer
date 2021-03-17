@@ -6,24 +6,27 @@ void Bootstrapper::boot() {
     spdlog::stdout_color_mt(static_cast<std::string>(LOGGER_NAME));
     zmq::context_t context(1);
 
-    auto rendererEndpoint = "inproc://ledMatrixRenderer";
+    // led renderer
     auto ledMatrix = std::make_unique<Ws2812bLedMatrix>(18, 0, LED_COUNT);
-    auto ledMatrixRendererSocket = std::make_unique<impresarioUtils::NetworkSocket>(context, rendererEndpoint,
-                                                                                    zmq::socket_type::pair, true);
-    LedMatrixRenderer ledMatrixRenderer{move(ledMatrix), move(ledMatrixRendererSocket)};
-    std::thread ledMatrixRenderingThread{LedMatrixRenderer::startRenderLoop, std::ref(ledMatrixRenderer)};
+    auto ledMatrixProxy = std::make_shared<LedMatrixProxy>(LED_COUNT);
+    auto ledMatrixRenderer = std::make_unique<LedMatrixRenderer>(move(ledMatrix), ledMatrixProxy);
+    std::thread ledMatrixRenderingThread{LedMatrixRenderer::startRenderLoop, move(ledMatrixRenderer)};
 
-    auto onsetReceiver = OnsetReceiver::create(context, static_cast<std::string>(CONDUCTOR_ENDPOINT));
-    auto ledPerformancePacketSocket = std::make_unique<impresarioUtils::NetworkSocket>(context, rendererEndpoint,
-                                                                                       zmq::socket_type::pair,
-                                                                                       false);
-    LedPerformance ledPerformance{move(onsetReceiver), move(ledPerformancePacketSocket), LED_COUNT};
+    // event receiver
+    auto eventReceiverSocket = std::make_unique<impresarioUtils::NetworkSocket>(context,
+                                                                                static_cast<std::string>(CONDUCTOR_ENDPOINT),
+                                                                                zmq::socket_type::sub,
+                                                                                false);
+    eventReceiverSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::onset);
+    eventReceiverSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::pitch);
+    auto eventReceiver = std::make_unique<EventReceiver>(move(eventReceiverSocket));
 
-    while (true) {
-        ledPerformance.perform();
-    }
+    // led performance
+    auto ledPerformance = std::make_unique<LedPerformance>(move(eventReceiver), ledMatrixProxy);
+    std::thread ledPerformanceThread{LedPerformance::startPerformanceLoop, move(ledPerformance)};
+
+    ledPerformanceThread.join();
     ledMatrixRenderingThread.join();
-
 }
 
 }

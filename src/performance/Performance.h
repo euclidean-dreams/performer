@@ -10,6 +10,8 @@ public:
     virtual ~Performance() = default;
 
     virtual void perform() = 0;
+
+    virtual bool finished() = 0;
 };
 
 }

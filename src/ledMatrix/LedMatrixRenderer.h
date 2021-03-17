@@ -3,28 +3,23 @@
 
 #include <thread>
 #include <chrono>
-#include <zmq.hpp>
-#include <NetworkSocket.h>
 #include <Time.h>
 #include <NonCopyable.h>
-#include <LedPacket_generated.h>
-#include "Config.h"
 #include "ledMatrix/LedMatrix.h"
+#include "ledMatrix/LedMatrixProxy.h"
 
 namespace performer {
 
 class LedMatrixRenderer : impresarioUtils::NonCopyable {
 private:
+    inline static const int TICK_INTERVAL_MICROSECONDS = 2500;
     std::unique_ptr<LedMatrix> ledMatrix;
-    std::unique_ptr<impresarioUtils::NetworkSocket> inputSocket;
-
-    std::unique_ptr<char[]> receiveLedPacketBuffer();
+    std::shared_ptr<LedMatrixProxy> ledMatrixProxy;
 
 public:
-    static void startRenderLoop(LedMatrixRenderer &ledMatrixRenderer);
+    static void startRenderLoop(std::unique_ptr<LedMatrixRenderer> ledMatrixRenderer);
 
-    LedMatrixRenderer(std::unique_ptr<LedMatrix> ledMatrix,
-                      std::unique_ptr<impresarioUtils::NetworkSocket> inputSocket);
+    LedMatrixRenderer(std::unique_ptr<LedMatrix> ledMatrix, std::shared_ptr<LedMatrixProxy> ledMatrixProxy);
 
     void render();
 

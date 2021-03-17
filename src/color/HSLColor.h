@@ -4,9 +4,11 @@
 #include <cstdint>
 #include <cmath>
 #include <sstream>
-#include <RGBColor_generated.h>
+#include "color/RGBColor.h"
 
 namespace performer {
+
+constexpr int HSL_HUE_MAX = 360;
 
 class HSLColor {
 private:
@@ -23,7 +25,7 @@ public:
 
     uint8_t getLightness() const;
 
-    ImpresarioSerialization::RGBColor convertToRGB() const;
+    RGBColor convertToRGB() const;
 };
 
 }

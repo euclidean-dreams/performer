@@ -40,28 +40,23 @@ void Ws2812bLedMatrix::render() {
     ws2811_render(&ledDriver);
 }
 
-void Ws2812bLedMatrix::consumeLedPacket(const ImpresarioSerialization::LedPacket *ledPacket) {
-    if (ledPacket == nullptr) {
-        throw std::invalid_argument("led matrix received a null led packet");
+void Ws2812bLedMatrix::update(LedMatrixProxy &proxy) {
+    auto lock = proxy.acquireLock();
+    if (proxy.size() != ledCount) {
+        throw std::invalid_argument("led matrix attempted to update using a proxy of invalid size");
     }
-    auto leds = ledPacket->leds();
-    if (leds->size() != ledCount) {
-        std::ostringstream errorMessage;
-        errorMessage << "led matrix received an led packet of size: " << leds->size() << ", expecting: " << ledCount;
-        throw std::invalid_argument(errorMessage.str());
-    }
-    for (int index = 0; index < leds->size(); index++) {
-        auto rawColor = (*leds)[index];
+    for (int index = 0; index < ledCount; index++) {
+        auto rawColor = proxy.getLed(index).convertToRGB();
         ledDriver.channel[pwmChannel].leds[index] = formatColorForDriver(rawColor);
     }
 }
 
-uint32_t Ws2812bLedMatrix::formatColorForDriver(const ImpresarioSerialization::RGBColor *color) {
-    auto result = static_cast<uint32_t>(color->red());
+uint32_t Ws2812bLedMatrix::formatColorForDriver(const RGBColor &color) {
+    auto result = static_cast<uint32_t>(color.red);
     result <<= 0x8u;
-    result |= static_cast<uint32_t>(color->green());
+    result |= static_cast<uint32_t>(color.green);
     result <<= 0x8u;
-    result |= static_cast<uint32_t>(color->blue());
+    result |= static_cast<uint32_t>(color.blue);
     return result;
 }
 

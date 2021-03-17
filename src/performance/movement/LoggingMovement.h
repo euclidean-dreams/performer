@@ -4,7 +4,8 @@
 #include <spdlog/spdlog.h>
 #include <Time.h>
 #include "Config.h"
-#include "eventReceiver/event/OnsetEvent.h"
+#include <Onset_generated.h>
+#include <Pitch_generated.h>
 #include "performance/movement/Movement.h"
 
 namespace performer {

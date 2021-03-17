@@ -2,7 +2,7 @@
 #define PERFORMER_MOVEMENT_H
 
 #include <NonCopyable.h>
-#include "eventReceiver/event/Event.h"
+#include "eventReceiver/Event.h"
 
 namespace performer {
 

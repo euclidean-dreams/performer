@@ -6,7 +6,7 @@ HSLColor::HSLColor(uint32_t hue, uint8_t saturation, uint8_t lightness)
         : hue{hue},
           saturation{saturation},
           lightness{lightness} {
-    if (hue > 360 || saturation > 100 || lightness > 100) {
+    if (hue > HSL_HUE_MAX || saturation > 100 || lightness > 100) {
         std::ostringstream errorMessage;
         errorMessage << "invalid HSL Color: (" << hue << ", " << saturation << ", " << lightness << ")";
         throw std::out_of_range(errorMessage.str());
@@ -25,7 +25,7 @@ uint8_t HSLColor::getLightness() const {
     return lightness;
 }
 
-ImpresarioSerialization::RGBColor HSLColor::convertToRGB() const {
+RGBColor HSLColor::convertToRGB() const {
     auto workingHue = static_cast<float>(hue);
     auto workingSaturation = static_cast<float>(saturation) / 100;
     auto workingLightness = static_cast<float>(lightness) / 100;
@@ -62,7 +62,7 @@ ImpresarioSerialization::RGBColor HSLColor::convertToRGB() const {
     auto red = static_cast<uint8_t>(std::roundf((initialRed + lightnessAdjustment) * 255));
     auto green = static_cast<uint8_t>(std::roundf((initialGreen + lightnessAdjustment) * 255));
     auto blue = static_cast<uint8_t>(std::roundf((initialBlue + lightnessAdjustment) * 255));
-    return ImpresarioSerialization::RGBColor{red, green, blue};
+    return RGBColor{red, green, blue};
 }
 
 }

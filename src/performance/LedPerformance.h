@@ -5,32 +5,38 @@
 #include <zmq.hpp>
 #include <NetworkSocket.h>
 #include <RandomNumberGenerator.h>
-#include "eventReceiver/OnsetReceiver.h"
+#include "eventReceiver/EventReceiver.h"
 #include "performance/Performance.h"
+#include "performance/timeline/TimelineManager.h"
 #include "performance/movement/LoggingMovement.h"
-#include "performance/movement/RippleMovement.h"
+#include "performance/movement/rippleMovement/RippleMovement.h"
+#include "performance/movement/PitchTrackingMovement.h"
 
 namespace performer {
 
 class LedPerformance : public Performance {
 private:
-    std::unique_ptr<impresarioUtils::NetworkSocket> ledPacketOutputSocket;
-    std::vector<std::unique_ptr<EventReceiver>> eventReceivers;
+    inline static const int TICK_INTERVAL_MICROSECONDS = 500;
+    inline static const unsigned int TIMELINE_SIZE = 20;
+
+    std::unique_ptr<EventReceiver> eventReceiver;
+    std::shared_ptr<LedMatrixProxy> ledMatrixProxy;
     std::vector<std::unique_ptr<Movement>> movements;
     impresarioUtils::RandomNumberGenerator randomNumberGenerator;
-    LedMatrixProxy ledMatrix;
+    TimelineManager timelineManager;
 
 public:
-    explicit LedPerformance(std::unique_ptr<OnsetReceiver> onsetReceiver,
-                            std::unique_ptr<impresarioUtils::NetworkSocket> ledPacketOutputSocket, uint ledCount);
+    static void startPerformanceLoop(std::unique_ptr<LedPerformance> ledPerformance);
+
+    LedPerformance(std::unique_ptr<EventReceiver> eventReceiver, std::shared_ptr<LedMatrixProxy> ledMatrixProxy);
 
     void perform() override;
+
+    bool finished() override;
 
     void handleEvents();
 
     void conductMovements();
-
-    void sendLedPacket();
 };
 
 }

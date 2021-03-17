@@ -1,16 +1,18 @@
 #ifndef PERFORMER_LEDMATRIXPROXY_H
 #define PERFORMER_LEDMATRIXPROXY_H
 
+#include <mutex>
+#include <condition_variable>
 #include <vector>
 #include <sstream>
 #include <NonCopyable.h>
-#include <LedPacket_generated.h>
 #include "color/HSLColor.h"
 
 namespace performer {
 
 class LedMatrixProxy : impresarioUtils::NonCopyable {
 private:
+    std::mutex mutex;
     std::vector<HSLColor> matrix;
 
 public:
@@ -18,9 +20,11 @@ public:
 
     HSLColor &operator[](int index);
 
+    const HSLColor &getLed(int index) const;
+
     int size() const;
 
-    std::unique_ptr<flatbuffers::FlatBufferBuilder> generateLedPacket() const;
+    std::unique_ptr<std::lock_guard<std::mutex>> acquireLock();
 };
 
 }

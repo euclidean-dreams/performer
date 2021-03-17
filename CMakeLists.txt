@@ -21,11 +21,6 @@ integrate_cmake_dependency(
         GIT_URL git@github.com:impresario-systems/impresario-utils.git
         GIT_TAG origin/dev
 )
-integrate_cmake_dependency(
-        NAME impresario-serialization
-        GIT_URL git@github.com:impresario-systems/impresario-serialization.git
-        GIT_TAG origin/dev
-)
 
 # performer
 set(
@@ -34,6 +29,7 @@ set(
         src/Bootstrapper.cpp src/Bootstrapper.h
 
         src/color/HSLColor.cpp src/color/HSLColor.h
+        src/color/RGBColor.h
 
         src/ledMatrix/LedMatrix.h
         src/ledMatrix/LedMatrixProxy.cpp src/ledMatrix/LedMatrixProxy.h
@@ -43,20 +39,23 @@ set(
         src/performance/Performance.h
         src/performance/LedPerformance.cpp src/performance/LedPerformance.h
 
+        src/performance/timeline/TimelineManager.cpp src/performance/timeline/TimelineManager.h
+        src/performance/timeline/Timeline.h
+        src/performance/timeline/OnsetTimeline.cpp src/performance/timeline/OnsetTimeline.h
+        src/performance/timeline/PitchTimeline.cpp src/performance/timeline/PitchTimeline.h
+
         src/performance/movement/Movement.h
-        src/performance/movement/RippleMovement.cpp src/performance/movement/RippleMovement.h
+        src/performance/movement/rippleMovement/RippleMovement.cpp src/performance/movement/rippleMovement/RippleMovement.h
         src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h
 
         src/performance/movement/action/Action.h
         src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
 
-        src/eventReceiver/EventReceiver.h
-        src/eventReceiver/OnsetReceiver.cpp src/eventReceiver/OnsetReceiver.h
-
-        src/eventReceiver/event/Event.h
-        src/eventReceiver/event/OnsetEvent.h src/eventReceiver/event/OnsetEvent.cpp
-
-)
+        src/eventReceiver/EventReceiver.cpp src/eventReceiver/EventReceiver.h
+        src/eventReceiver/Event.cpp src/eventReceiver/Event.h
+        src/eventReceiver/EventCollection.cpp src/eventReceiver/EventCollection.h
+        src/eventReceiver/InvalidUnserializationException.h
+        src/performance/movement/PitchTrackingMovement.cpp src/performance/movement/PitchTrackingMovement.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
@@ -67,7 +66,6 @@ set(
         test/TestingUtils.h
 
         test/color/TestHSLColor.cpp
-
 )
 list(APPEND TARGETS test-performer)
 add_executable(test-performer ${TEST_FILES})
@@ -78,7 +76,6 @@ target_link_libraries(test-performer PRIVATE gtest_main)
 foreach (target IN LISTS TARGETS)
     target_include_directories(${target} PRIVATE src)
     target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/rpi_ws281x-src)
-    target_link_libraries(${target} PRIVATE impresario-serialization)
     target_link_libraries(${target} PRIVATE impresario-utils)
     target_link_libraries(${target} PRIVATE ws2811)
     target_link_libraries(${target} PRIVATE zmq)
