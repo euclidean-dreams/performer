@@ -10,7 +10,7 @@
 #include "performance/LedPerformance.h"
 #include "ledMatrix/LedMatrixRenderer.h"
 #include "ledMatrix/Ws2812bLedMatrix.h"
-#include "eventReceiver/EventReceiver.h"
+#include "event/EventReceiver.h"
 
 namespace performer {
 

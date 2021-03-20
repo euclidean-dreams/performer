@@ -39,23 +39,27 @@ set(
         src/performance/Performance.h
         src/performance/LedPerformance.cpp src/performance/LedPerformance.h
 
-        src/performance/timeline/TimelineManager.cpp src/performance/timeline/TimelineManager.h
         src/performance/timeline/Timeline.h
+        src/performance/timeline/TimelineManager.cpp src/performance/timeline/TimelineManager.h
         src/performance/timeline/OnsetTimeline.cpp src/performance/timeline/OnsetTimeline.h
         src/performance/timeline/PitchTimeline.cpp src/performance/timeline/PitchTimeline.h
 
         src/performance/movement/Movement.h
-        src/performance/movement/rippleMovement/RippleMovement.cpp src/performance/movement/rippleMovement/RippleMovement.h
         src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h
+        src/performance/movement/ledMatrixMovement/LedMatrixMovement.cpp src/performance/movement/ledMatrixMovement/LedMatrixMovement.h
+        src/performance/movement/ledMatrixMovement/FlashOnOnsetMovement.cpp src/performance/movement/ledMatrixMovement/FlashOnOnsetMovement.h
 
-        src/performance/movement/action/Action.h
-        src/performance/movement/action/Ripple.cpp src/performance/movement/action/Ripple.h
+        src/performance/action/Action.h
+        src/performance/action/ActionCollection.cpp src/performance/action/ActionCollection.h
+        src/performance/action/ledMatrixAction/LedMatrixAction.cpp src/performance/action/ledMatrixAction/LedMatrixAction.h
+        src/performance/action/ledMatrixAction/Flash.cpp src/performance/action/ledMatrixAction/Flash.h
 
-        src/eventReceiver/EventReceiver.cpp src/eventReceiver/EventReceiver.h
-        src/eventReceiver/Event.cpp src/eventReceiver/Event.h
-        src/eventReceiver/EventCollection.cpp src/eventReceiver/EventCollection.h
-        src/eventReceiver/InvalidUnserializationException.h
-        src/performance/movement/PitchTrackingMovement.cpp src/performance/movement/PitchTrackingMovement.h)
+        src/event/Event.cpp src/event/Event.h
+        src/event/EventReceiver.cpp src/event/EventReceiver.h
+        src/event/EventCollection.cpp src/event/EventCollection.h
+        src/event/InvalidUnserializationException.h
+
+)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
@@ -66,6 +70,7 @@ set(
         test/TestingUtils.h
 
         test/color/TestHSLColor.cpp
+
 )
 list(APPEND TARGETS test-performer)
 add_executable(test-performer ${TEST_FILES})

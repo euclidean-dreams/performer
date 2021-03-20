@@ -6,7 +6,7 @@
 #include <NonCopyable.h>
 #include <Onset_generated.h>
 #include <Pitch_generated.h>
-#include "eventReceiver/InvalidUnserializationException.h"
+#include "event/InvalidUnserializationException.h"
 
 namespace performer {
 

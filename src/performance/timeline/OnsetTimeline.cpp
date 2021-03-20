@@ -9,7 +9,7 @@ OnsetTimeline::OnsetTimeline(unsigned int maxSize)
 
 }
 
-void OnsetTimeline::pushEvent(std::unique_ptr<const Event> event) {
+void OnsetTimeline::addEvent(std::unique_ptr<const Event> event) {
     if (timeline.size() >= maxSize) {
         timeline.pop_back();
         events.pop_back();

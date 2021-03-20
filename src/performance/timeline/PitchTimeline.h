@@ -16,7 +16,7 @@ protected:
 public:
     explicit PitchTimeline(unsigned int maxSize);
 
-    void pushEvent(std::unique_ptr<const Event> event) override;
+    void addEvent(std::unique_ptr<const Event> event) override;
 
     std::list<const ImpresarioSerialization::Pitch *>::const_iterator begin() const;
 

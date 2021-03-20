@@ -2,7 +2,7 @@
 #define PERFORMER_TIMELINE_H
 
 #include <NonCopyable.h>
-#include "eventReceiver/Event.h"
+#include "event/Event.h"
 
 namespace performer {
 
@@ -10,7 +10,7 @@ class Timeline : impresarioUtils::NonCopyable {
 public:
     virtual ~Timeline() = default;
 
-    virtual void pushEvent(std::unique_ptr<const Event> event) = 0;
+    virtual void addEvent(std::unique_ptr<const Event> event) = 0;
 };
 
 }

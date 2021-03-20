@@ -5,19 +5,17 @@
 #include <zmq.hpp>
 #include <NetworkSocket.h>
 #include <RandomNumberGenerator.h>
-#include "eventReceiver/EventReceiver.h"
+#include "event/EventReceiver.h"
 #include "performance/Performance.h"
 #include "performance/timeline/TimelineManager.h"
 #include "performance/movement/LoggingMovement.h"
-#include "performance/movement/rippleMovement/RippleMovement.h"
-#include "performance/movement/PitchTrackingMovement.h"
+#include "performance/movement/ledMatrixMovement/FlashOnOnsetMovement.h"
 
 namespace performer {
 
 class LedPerformance : public Performance {
 private:
     inline static const int TICK_INTERVAL_MICROSECONDS = 500;
-    inline static const unsigned int TIMELINE_SIZE = 20;
 
     std::unique_ptr<EventReceiver> eventReceiver;
     std::shared_ptr<LedMatrixProxy> ledMatrixProxy;

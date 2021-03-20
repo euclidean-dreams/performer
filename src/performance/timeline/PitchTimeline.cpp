@@ -9,7 +9,7 @@ PitchTimeline::PitchTimeline(unsigned int maxSize)
 
 }
 
-void PitchTimeline::pushEvent(std::unique_ptr<const Event> event) {
+void PitchTimeline::addEvent(std::unique_ptr<const Event> event) {
     if (timeline.size() >= maxSize) {
         timeline.pop_back();
         events.pop_back();

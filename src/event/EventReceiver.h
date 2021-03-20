@@ -4,7 +4,7 @@
 #include <NetworkSocket.h>
 #include <NonCopyable.h>
 #include "Event.h"
-#include "eventReceiver/EventCollection.h"
+#include "event/EventCollection.h"
 
 namespace performer {
 

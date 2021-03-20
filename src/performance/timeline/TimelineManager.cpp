@@ -9,11 +9,11 @@ TimelineManager::TimelineManager()
 
 }
 
-void TimelineManager::pushEvent(std::unique_ptr<const Event> event) {
+void TimelineManager::addEvent(std::unique_ptr<const Event> event) {
     if (event->getIdentifier() == ImpresarioSerialization::Identifier::onset) {
-        onsetTimeline.pushEvent(move(event));
+        onsetTimeline.addEvent(move(event));
     } else if (event->getIdentifier() == ImpresarioSerialization::Identifier::pitch) {
-        pitchTimeline.pushEvent(move(event));
+        pitchTimeline.addEvent(move(event));
     }
 }
 

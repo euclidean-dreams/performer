@@ -3,7 +3,7 @@
 
 #include <list>
 #include <memory>
-#include "eventReceiver/Event.h"
+#include "event/Event.h"
 #include "performance/timeline/OnsetTimeline.h"
 #include "performance/timeline/PitchTimeline.h"
 
@@ -21,7 +21,7 @@ private:
 public:
     explicit TimelineManager();
 
-    void pushEvent(std::unique_ptr<const Event> event);
+    void addEvent(std::unique_ptr<const Event> event);
 
     const OnsetTimeline &getOnsetTimeline() const;
 
