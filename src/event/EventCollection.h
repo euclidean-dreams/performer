@@ -3,7 +3,7 @@
 
 #include <list>
 #include <memory>
-#include <NonCopyable.h>
+#include <ImpresarioUtils.h>
 #include "event/Event.h"
 
 namespace performer {

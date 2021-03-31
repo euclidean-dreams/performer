@@ -5,7 +5,7 @@
 #include <condition_variable>
 #include <vector>
 #include <sstream>
-#include <NonCopyable.h>
+#include <ImpresarioUtils.h>
 #include "color/HSLColor.h"
 
 namespace performer {

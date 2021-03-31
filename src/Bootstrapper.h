@@ -6,7 +6,7 @@
 #include <thread>
 #include <zmq.hpp>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <NetworkSocket.h>
+#include <ImpresarioUtils.h>
 #include "performance/LedPerformance.h"
 #include "ledMatrix/LedMatrixRenderer.h"
 #include "ledMatrix/Ws2812bLedMatrix.h"

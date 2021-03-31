@@ -2,10 +2,8 @@
 #define PERFORMER_EVENT_H
 
 #include <memory>
-#include <SerializedData.h>
-#include <NonCopyable.h>
-#include <Onset_generated.h>
-#include <Pitch_generated.h>
+#include <ImpresarioUtils.h>
+#include <ImpresarioSerialization.h>
 #include "event/InvalidUnserializationException.h"
 
 namespace performer {

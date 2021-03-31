@@ -2,7 +2,7 @@
 #define PERFORMER_PITCHTIMELINE_H
 
 #include <list>
-#include <IdentifierWrapper_generated.h>
+#include <ImpresarioSerialization.h>
 #include "performance/timeline/Timeline.h"
 
 namespace performer {

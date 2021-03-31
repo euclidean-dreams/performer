@@ -1,7 +1,7 @@
 #ifndef PERFORMER_LEDMATRIXMOVEMENT_H
 #define PERFORMER_LEDMATRIXMOVEMENT_H
 
-#include <RandomNumberGenerator.h>
+#include <ImpresarioUtils.h>
 #include "ledMatrix/LedMatrixProxy.h"
 #include "performance/movement/Movement.h"
 #include "performance/action/ActionCollection.h"

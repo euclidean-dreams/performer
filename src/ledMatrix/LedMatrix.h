@@ -1,8 +1,8 @@
 #ifndef PERFORMER_LEDMATRIX_H
 #define PERFORMER_LEDMATRIX_H
 
+#include <ImpresarioUtils.h>
 #include "ledMatrix/LedMatrixProxy.h"
-#include <NonCopyable.h>
 
 namespace performer {
 

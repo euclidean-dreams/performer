@@ -1,7 +1,7 @@
 #ifndef PERFORMER_TIMELINE_H
 #define PERFORMER_TIMELINE_H
 
-#include <NonCopyable.h>
+#include <ImpresarioUtils.h>
 #include "event/Event.h"
 
 namespace performer {

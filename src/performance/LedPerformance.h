@@ -3,8 +3,7 @@
 
 #include <thread>
 #include <zmq.hpp>
-#include <NetworkSocket.h>
-#include <RandomNumberGenerator.h>
+#include <ImpresarioUtils.h>
 #include "event/EventReceiver.h"
 #include "performance/Performance.h"
 #include "performance/timeline/TimelineManager.h"

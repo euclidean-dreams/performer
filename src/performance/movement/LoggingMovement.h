@@ -2,10 +2,9 @@
 #define PERFORMER_LOGGINGMOVEMENT_H
 
 #include <spdlog/spdlog.h>
-#include <Time.h>
+#include <ImpresarioUtils.h>
+#include <ImpresarioSerialization.h>
 #include "Config.h"
-#include <Onset_generated.h>
-#include <Pitch_generated.h>
 #include "performance/movement/Movement.h"
 
 namespace performer {

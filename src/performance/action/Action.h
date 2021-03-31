@@ -1,7 +1,7 @@
 #ifndef PERFORMER_ACTION_H
 #define PERFORMER_ACTION_H
 
-#include <NonCopyable.h>
+#include <ImpresarioUtils.h>
 
 namespace performer {
 

@@ -1,8 +1,7 @@
 #ifndef PERFORMER_EVENTRECEIVER_H
 #define PERFORMER_EVENTRECEIVER_H
 
-#include <NetworkSocket.h>
-#include <NonCopyable.h>
+#include <ImpresarioUtils.h>
 #include "Event.h"
 #include "event/EventCollection.h"
 

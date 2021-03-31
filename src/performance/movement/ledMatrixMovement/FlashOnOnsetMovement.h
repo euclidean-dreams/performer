@@ -1,8 +1,8 @@
 #ifndef PERFORMER_FLASHONONSETMOVEMENT_H
 #define PERFORMER_FLASHONONSETMOVEMENT_H
 
-#include <Time.h>
-#include <Onset_generated.h>
+#include <ImpresarioUtils.h>
+#include <ImpresarioSerialization.h>
 #include "Config.h"
 #include "performance/movement/ledMatrixMovement/LedMatrixMovement.h"
 #include "performance/action/ledMatrixAction/Flash.h"
