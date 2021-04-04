@@ -12,12 +12,12 @@ void LoggingMovement::handleEvent(const Event &event) {
         auto onset = event.getOnset();
         auto methodName = ImpresarioSerialization::EnumNameOnsetMethod(onset->method());
         auto elapsedTime = impresarioUtils::getElapsedTime(onset->timestamp());
-        auto latency = impresarioUtils::getElapsedTime(onset->sampleTimestamp());
+        auto latency = impresarioUtils::getElapsedTime(onset->originTimestamp());
         logger->info("onset received, method: {}, time since onset: {}, latency: {}", methodName, elapsedTime, latency);
     } else if (event.getIdentifier() == ImpresarioSerialization::Identifier::pitch) {
         auto pitch = event.getPitch();
         auto methodName = ImpresarioSerialization::EnumNamePitchMethod(pitch->method());
-        auto latency = impresarioUtils::getElapsedTime(pitch->sampleTimestamp());
+        auto latency = impresarioUtils::getElapsedTime(pitch->originTimestamp());
         logger->info("pitch received, method: {}, pitch: {}, confidence: {}, latency: {}",
                      methodName, pitch->pitch(), pitch->confidence(), latency);
     }
