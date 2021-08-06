@@ -20,6 +20,8 @@ public:
     const ImpresarioSerialization::Onset *getOnset() const;
 
     const ImpresarioSerialization::Pitch *getPitch() const;
+
+    const ImpresarioSerialization::DisplaySignal *getDisplaySignal() const;
 };
 
 }

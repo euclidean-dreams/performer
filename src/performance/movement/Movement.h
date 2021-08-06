@@ -8,7 +8,7 @@ namespace performer {
 
 class Movement : impresarioUtils::NonCopyable {
 protected:
-    static const int MAX_ONSET_LATENCY = 100000;
+    static const int MAX_ONSET_LATENCY = 100000000;
 
 public:
     virtual ~Movement() = default;

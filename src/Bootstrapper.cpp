@@ -19,6 +19,7 @@ void Bootstrapper::boot() {
                                                                                 false);
     eventReceiverSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::onset);
     eventReceiverSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::pitch);
+    eventReceiverSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::displaySignal);
     auto eventReceiver = std::make_unique<EventReceiver>(move(eventReceiverSocket));
 
     // led performance

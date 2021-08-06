@@ -23,54 +23,10 @@ LedPerformance::LedPerformance(std::unique_ptr<EventReceiver> eventReceiver,
           randomNumberGenerator{},
           timelineManager{} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
-
-    // bass
-    auto flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                           {ImpresarioSerialization::FrequencyBand::bass},
-                                                           {270, 100, 50},
-                                                           0, 29, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
-
-    // snares
-    flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                      {ImpresarioSerialization::FrequencyBand::brilliance},
-                                                      {180, 100, 90},
-                                                      30, 44, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
-
-    // low mids
-    flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                      {ImpresarioSerialization::FrequencyBand::lowMidrange},
-                                                      {0, 100, 50},
-                                                      45, 54, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
-
-    // mids
-    flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                      {ImpresarioSerialization::FrequencyBand::midrange},
-                                                      {40, 100, 50},
-                                                      55, 64, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
-
-    // high mids
-    flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                      {ImpresarioSerialization::FrequencyBand::upperMidrange},
-                                                      {110, 100, 50},
-                                                      65, 74, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
-
-    // highs
-    flashes = FlashOnOnsetMovement::createSymmetrical(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
-                                                      {ImpresarioSerialization::FrequencyBand::presence},
-                                                      {65, 100, 50},
-                                                      75, 90, 0.35);
-    movements.push_back(move(flashes.first));
-    movements.push_back(move(flashes.second));
+    auto displaySignalMovement = std::make_unique<DisplaySignalMovement>(
+            ledMatrixProxyRef, randomNumberGenerator, timelineManager
+    );
+    movements.push_back(move(displaySignalMovement));
 
 //    auto loggingMovement = std::make_unique<LoggingMovement>();
 //    movements.push_back(move(loggingMovement));

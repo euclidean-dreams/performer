@@ -9,6 +9,7 @@
 #include "performance/timeline/TimelineManager.h"
 #include "performance/movement/LoggingMovement.h"
 #include "performance/movement/ledMatrixMovement/FlashOnOnsetMovement.h"
+#include "performance/movement/ledMatrixMovement/DisplaySignalMovement.h"
 
 namespace performer {
 

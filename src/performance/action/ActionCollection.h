@@ -16,6 +16,8 @@ public:
 
     void addAction(std::unique_ptr<Action> action);
 
+    void trimActions(int maxActions);
+
     void executeActions();
 };
 

@@ -27,4 +27,12 @@ const ImpresarioSerialization::Pitch *Event::getPitch() const {
     }
 }
 
+const ImpresarioSerialization::DisplaySignal *Event::getDisplaySignal() const {
+    if (getIdentifier() == ImpresarioSerialization::Identifier::displaySignal) {
+        return ImpresarioSerialization::GetDisplaySignal(payload->getBuffer());
+    } else {
+        throw InvalidUnserializationException();
+    }
+}
+
 }

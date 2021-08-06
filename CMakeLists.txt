@@ -59,6 +59,10 @@ set(
         src/event/EventCollection.cpp src/event/EventCollection.h
         src/event/InvalidUnserializationException.h
 
+
+        src/performance/movement/ledMatrixMovement/DisplaySignalMovement.cpp src/performance/movement/ledMatrixMovement/DisplaySignalMovement.h
+        src/performance/action/ledMatrixAction/DisplaySignalAction.cpp src/performance/action/ledMatrixAction/DisplaySignalAction.h
+
 )
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
