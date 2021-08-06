@@ -49,7 +49,8 @@ void FlashOnOnsetMovement::handleEvent(const Event &event) {
         if (onsetInCorrectFrequencyBand && impresarioUtils::getElapsedTime(lastAction) > MIN_TIME_BETWEEN_ONSETS
             && onsetLatencyReasonable(onset)) {
             lastAction = impresarioUtils::getCurrentTime();
-            auto flash = std::make_unique<Flash>(ledMatrix, color, startIndex, endIndex, flashFadeRate);
+            auto randoColor = HSLColor{static_cast<uint32_t>(randomNumberGenerator.generate(HSL_HUE_MAX)), 100, 100};
+            auto flash = std::make_unique<Flash>(ledMatrix, randoColor, startIndex, endIndex, flashFadeRate);
             actionCollection.addAction(move(flash));
         }
     }

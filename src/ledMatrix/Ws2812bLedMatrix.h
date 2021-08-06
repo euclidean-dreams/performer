@@ -9,7 +9,7 @@ namespace performer {
 
 class Ws2812bLedMatrix : public LedMatrix {
 private:
-    inline static const int LED_MATRIX_INITIAL_BRIGHTNESS = 100;
+    inline static const int LED_MATRIX_INITIAL_BRIGHTNESS = 50;
 
     ws2811_t ledDriver;
     int pwmChannel;

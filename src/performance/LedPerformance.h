@@ -4,6 +4,7 @@
 #include <thread>
 #include <zmq.hpp>
 #include <ImpresarioUtils.h>
+#include "Bootstrapper.h"
 #include "event/EventReceiver.h"
 #include "performance/Performance.h"
 #include "performance/timeline/TimelineManager.h"

@@ -19,7 +19,12 @@ void Flash::execute() {
         shouldContinue = false;
     } else {
         for (int index = startIndex; index <= endIndex; index++) {
-            ledMatrix[index] = HSLColor{color.getHue(), color.getSaturation(), static_cast<uint8_t>(lightness)};
+            auto hue = color.getHue();
+            hue += index;
+            while (hue > HSL_HUE_MAX) {
+                hue -= HSL_HUE_MAX;
+            }
+            ledMatrix[index] = HSLColor{hue, color.getSaturation(), static_cast<uint8_t>(lightness)};
         }
     }
 }

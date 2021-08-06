@@ -7,7 +7,7 @@ void Bootstrapper::boot() {
     zmq::context_t context(1);
 
     // led renderer
-    auto ledMatrix = std::make_unique<Ws2812bLedMatrix>(18, 0, LED_COUNT);
+    auto ledMatrix = std::make_unique<Ws2812bLedMatrix>(13, 1, LED_COUNT);
     auto ledMatrixProxy = std::make_shared<LedMatrixProxy>(LED_COUNT);
     auto ledMatrixRenderer = std::make_unique<LedMatrixRenderer>(move(ledMatrix), ledMatrixProxy);
     std::thread ledMatrixRenderingThread{LedMatrixRenderer::startRenderLoop, move(ledMatrixRenderer)};

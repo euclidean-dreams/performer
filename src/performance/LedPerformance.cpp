@@ -23,10 +23,12 @@ LedPerformance::LedPerformance(std::unique_ptr<EventReceiver> eventReceiver,
           randomNumberGenerator{},
           timelineManager{} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
-    auto displaySignalMovement = std::make_unique<DisplaySignalMovement>(
-            ledMatrixProxyRef, randomNumberGenerator, timelineManager
-    );
-    movements.push_back(move(displaySignalMovement));
+    auto freq = std::vector<ImpresarioSerialization::FrequencyBand>{ImpresarioSerialization::FrequencyBand::all};
+    auto frequencyBands = std::make_unique<std::vector<ImpresarioSerialization::FrequencyBand>>(freq);
+    auto color = HSLColor{65, 100, 50};
+    auto flasher = std::make_unique<FlashOnOnsetMovement>(ledMatrixProxyRef, randomNumberGenerator, timelineManager,
+                                                          move(frequencyBands), color, 0, Bootstrapper::LED_COUNT, 0.5);
+    movements.push_back(move(flasher));
 
 //    auto loggingMovement = std::make_unique<LoggingMovement>();
 //    movements.push_back(move(loggingMovement));
