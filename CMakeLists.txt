@@ -63,7 +63,7 @@ set(
         src/performance/movement/ledMatrixMovement/DisplaySignalMovement.cpp src/performance/movement/ledMatrixMovement/DisplaySignalMovement.h
         src/performance/action/ledMatrixAction/DisplaySignalAction.cpp src/performance/action/ledMatrixAction/DisplaySignalAction.h
 
-)
+        src/performance/action/ledMatrixAction/Ripple.cpp src/performance/action/ledMatrixAction/Ripple.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 

@@ -23,7 +23,11 @@ void Bootstrapper::boot() {
     auto eventReceiver = std::make_unique<EventReceiver>(move(eventReceiverSocket));
 
     // led performance
-    auto ledPerformance = std::make_unique<LedPerformance>(move(eventReceiver), ledMatrixProxy);
+    auto morselSocket = std::make_unique<impresarioUtils::NetworkSocket>(context, "tcp://0.0.0.0:44449",
+                                                                         zmq::socket_type::sub, true);
+    morselSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::floatMorsel);
+    morselSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::floatArrayMorsel);
+    auto ledPerformance = std::make_unique<LedPerformance>(move(eventReceiver), ledMatrixProxy, move(morselSocket));
     std::thread ledPerformanceThread{LedPerformance::startPerformanceLoop, move(ledPerformance)};
 
     ledPerformanceThread.join();

@@ -16,7 +16,8 @@ void LedPerformance::startPerformanceLoop(std::unique_ptr<LedPerformance> ledPer
 }
 
 LedPerformance::LedPerformance(std::unique_ptr<EventReceiver> eventReceiver,
-                               std::shared_ptr<LedMatrixProxy> ledMatrixProxy)
+                               std::shared_ptr<LedMatrixProxy> ledMatrixProxy,
+                               std::unique_ptr<impresarioUtils::NetworkSocket> morselSocket)
         : eventReceiver{move(eventReceiver)},
           ledMatrixProxy{move(ledMatrixProxy)},
           movements{},
@@ -24,7 +25,7 @@ LedPerformance::LedPerformance(std::unique_ptr<EventReceiver> eventReceiver,
           timelineManager{} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
     auto displaySignalMovement = std::make_unique<DisplaySignalMovement>(
-            ledMatrixProxyRef, randomNumberGenerator, timelineManager
+            ledMatrixProxyRef, randomNumberGenerator, timelineManager, move(morselSocket)
     );
     movements.push_back(move(displaySignalMovement));
 

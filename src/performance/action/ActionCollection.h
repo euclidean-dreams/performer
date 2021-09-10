@@ -19,6 +19,8 @@ public:
     void trimActions(int maxActions);
 
     void executeActions();
+
+    unsigned int size();
 };
 
 }

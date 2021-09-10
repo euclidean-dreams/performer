@@ -26,7 +26,8 @@ private:
 public:
     static void startPerformanceLoop(std::unique_ptr<LedPerformance> ledPerformance);
 
-    LedPerformance(std::unique_ptr<EventReceiver> eventReceiver, std::shared_ptr<LedMatrixProxy> ledMatrixProxy);
+    LedPerformance(std::unique_ptr<EventReceiver> eventReceiver, std::shared_ptr<LedMatrixProxy> ledMatrixProxy,
+                   std::unique_ptr<impresarioUtils::NetworkSocket> morselSocket);
 
     void perform() override;
 

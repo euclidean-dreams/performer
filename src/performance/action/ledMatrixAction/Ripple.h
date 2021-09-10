@@ -1,20 +1,19 @@
-#ifndef PERFORMER_FLASH_H
-#define PERFORMER_FLASH_H
+#ifndef PERFORMER_RIPPLE_H
+#define PERFORMER_RIPPLE_H
 
 #include "performance/action/ledMatrixAction/LedMatrixAction.h"
 
 namespace performer {
 
-class Flash : public LedMatrixAction {
+class Ripple : public LedMatrixAction {
 private:
     HSLColor color;
     int startIndex;
-    int endIndex;
-    float fadeRate;
+    float speed;
     bool shouldContinue;
 
 public:
-    Flash(LedMatrixProxy &ledMatrix, HSLColor color, int startIndex, int endIndex, float fadeRate);
+    Ripple(performer::LedMatrixProxy &ledMatrix, performer::HSLColor color, int startIndex, float speed);
 
     void execute() override;
 
@@ -25,4 +24,4 @@ public:
 
 }
 
-#endif //PERFORMER_FLASH_H
+#endif //PERFORMER_RIPPLE_H
