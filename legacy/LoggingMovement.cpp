@@ -3,7 +3,7 @@
 namespace performer {
 
 LoggingMovement::LoggingMovement()
-        : logger{spdlog::get(static_cast<std::string>(LOGGER_NAME))} {
+        : logger{spdlog::get(Config::getInstance().getLoggerName())} {
 
 }
 

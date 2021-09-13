@@ -13,14 +13,18 @@ namespace performer {
 class LedMatrixProxy : impresarioUtils::NonCopyable {
 private:
     std::mutex mutex;
-    std::vector<HSLColor> matrix;
+    std::vector<std::vector<HSLColor>> matrix;
 
 public:
-    explicit LedMatrixProxy(uint ledCount);
+    explicit LedMatrixProxy(uint width, uint height);
 
-    HSLColor &operator[](int index);
+    HSLColor getLed(int x, int y);
 
-    const HSLColor &getLed(int index) const;
+    void setLed(int x, int y, HSLColor color);
+
+    int width() const;
+
+    int height() const;
 
     int size() const;
 

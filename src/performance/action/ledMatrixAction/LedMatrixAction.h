@@ -11,11 +11,16 @@ class LedMatrixAction : public Action {
 protected:
     LedMatrixProxy &ledMatrix;
     uint64_t initialTimestamp;
+    int tick;
+
+    virtual void handleTick() = 0;
 
 public:
     explicit LedMatrixAction(LedMatrixProxy &ledMatrix);
 
     ~LedMatrixAction() override = default;
+
+    void execute() override;
 };
 
 }

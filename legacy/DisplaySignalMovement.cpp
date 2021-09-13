@@ -18,7 +18,7 @@ DisplaySignalMovement::DisplaySignalMovement(LedMatrixProxy &ledMatrix,
           mode{0},
           highestSampleIndex{0},
           lastActionTimestamp{0} {
-    previousDisplaySignal.resize(Bootstrapper::LED_COUNT, 0);
+    previousDisplaySignal.resize(ledMatrix.size(), 0);
 }
 
 void DisplaySignalMovement::handleEvent(const Event &event) {
@@ -114,7 +114,9 @@ void DisplaySignalMovement::handleEvent(const Event &event) {
             }
             lightness = static_cast<uint8_t>(rawLightness);
             if (mode == 0) {
-                ledMatrix[index] = HSLColor{hue, saturation, lightness};
+                ledMatrix.setLed(index % ledMatrix.width(),
+                                 index / ledMatrix.height(),
+                                 HSLColor{hue, saturation, lightness});
             }
         }
         for (int index = 0; index < displaySignal.size(); index++) {

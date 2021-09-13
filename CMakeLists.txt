@@ -21,49 +21,41 @@ integrate_cmake_dependency(
         GIT_URL git@github.com:impresario-systems/impresario-utils.git
         GIT_TAG origin/dev
 )
+SET(YAML_CPP_BUILD_TESTS OFF)
+SET(YAML_CPP_INSTALL OFF)
+SET(YAML_MSVC_SHARED_RT OFF)
+SET(YAML_CPP_BUILD_TOOLS OFF)
+SET(YAML_CPP_BUILD_CONTRIB OFF)
+integrate_cmake_dependency(
+        NAME yaml
+        GIT_URL git@github.com:jbeder/yaml-cpp.git
+        GIT_TAG 9a3624205e8774953ef18f57067b3426c1c5ada6
+)
 
 # performer
 set(
         SOURCE_FILES
-        src/Config.h
         src/Bootstrapper.cpp src/Bootstrapper.h
 
         src/color/HSLColor.cpp src/color/HSLColor.h
         src/color/RGBColor.h
 
-        src/ledMatrix/LedMatrix.h
         src/ledMatrix/LedMatrixProxy.cpp src/ledMatrix/LedMatrixProxy.h
-        src/ledMatrix/LedMatrixRenderer.cpp src/ledMatrix/LedMatrixRenderer.h
-        src/ledMatrix/Ws2812bLedMatrix.cpp src/ledMatrix/Ws2812bLedMatrix.h
+        src/ledMatrix/Ws2812bLedStripRenderer.cpp src/ledMatrix/Ws2812bLedStripRenderer.h
+        src/ledMatrix/Ws2812bLedStrip.cpp src/ledMatrix/Ws2812bLedStrip.h
 
         src/performance/Performance.h
         src/performance/LedPerformance.cpp src/performance/LedPerformance.h
 
-        src/performance/timeline/Timeline.h
-        src/performance/timeline/TimelineManager.cpp src/performance/timeline/TimelineManager.h
-        src/performance/timeline/OnsetTimeline.cpp src/performance/timeline/OnsetTimeline.h
-        src/performance/timeline/PitchTimeline.cpp src/performance/timeline/PitchTimeline.h
-
         src/performance/movement/Movement.h
-        src/performance/movement/LoggingMovement.cpp src/performance/movement/LoggingMovement.h
         src/performance/movement/ledMatrixMovement/LedMatrixMovement.cpp src/performance/movement/ledMatrixMovement/LedMatrixMovement.h
-        src/performance/movement/ledMatrixMovement/FlashOnOnsetMovement.cpp src/performance/movement/ledMatrixMovement/FlashOnOnsetMovement.h
 
         src/performance/action/Action.h
         src/performance/action/ActionCollection.cpp src/performance/action/ActionCollection.h
         src/performance/action/ledMatrixAction/LedMatrixAction.cpp src/performance/action/ledMatrixAction/LedMatrixAction.h
-        src/performance/action/ledMatrixAction/Flash.cpp src/performance/action/ledMatrixAction/Flash.h
 
-        src/event/Event.cpp src/event/Event.h
-        src/event/EventReceiver.cpp src/event/EventReceiver.h
-        src/event/EventCollection.cpp src/event/EventCollection.h
-        src/event/InvalidUnserializationException.h
-
-
-        src/performance/movement/ledMatrixMovement/DisplaySignalMovement.cpp src/performance/movement/ledMatrixMovement/DisplaySignalMovement.h
-        src/performance/action/ledMatrixAction/DisplaySignalAction.cpp src/performance/action/ledMatrixAction/DisplaySignalAction.h
-
-        src/performance/action/ledMatrixAction/Ripple.cpp src/performance/action/ledMatrixAction/Ripple.h)
+        src/performance/movement/ledMatrixMovement/SandboxMovement.cpp src/performance/movement/ledMatrixMovement/SandboxMovement.h
+        src/Config.cpp src/Config.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 
@@ -89,4 +81,5 @@ foreach (target IN LISTS TARGETS)
     target_link_libraries(${target} PRIVATE ws2811)
     target_link_libraries(${target} PRIVATE zmq)
     target_link_libraries(${target} PRIVATE pthread)
+    target_link_libraries(${target} PRIVATE yaml-cpp)
 endforeach ()

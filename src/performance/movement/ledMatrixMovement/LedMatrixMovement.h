@@ -5,7 +5,6 @@
 #include "ledMatrix/LedMatrixProxy.h"
 #include "performance/movement/Movement.h"
 #include "performance/action/ActionCollection.h"
-#include "performance/timeline/TimelineManager.h"
 
 namespace performer {
 
@@ -13,16 +12,13 @@ class LedMatrixMovement : public Movement {
 protected:
     LedMatrixProxy &ledMatrix;
     impresarioUtils::RandomNumberGenerator &randomNumberGenerator;
-    const TimelineManager &timelineManager;
     ActionCollection actionCollection;
+    int tick;
 
-    HSLColor generateColorWithDifferentHue(const HSLColor &baseColor) const;
-
-    static bool onsetLatencyReasonable(const ImpresarioSerialization::Onset *onset);
+    virtual void handleTick() = 0;
 
 public:
-    LedMatrixMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
-                      const TimelineManager &timelineManager);
+    LedMatrixMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);
 
     void conduct() override;
 };
