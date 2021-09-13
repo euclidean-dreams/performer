@@ -30,4 +30,8 @@ void ActionCollection::executeActions() {
     }
 }
 
+unsigned int ActionCollection::size() {
+    return actions.size();
+}
+
 }

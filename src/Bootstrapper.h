@@ -8,17 +8,12 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <ImpresarioUtils.h>
 #include "performance/LedPerformance.h"
-#include "ledMatrix/LedMatrixRenderer.h"
-#include "ledMatrix/Ws2812bLedMatrix.h"
-#include "event/EventReceiver.h"
+#include "ledMatrix/Ws2812bLedStripRenderer.h"
+#include "ledMatrix/Ws2812bLedStrip.h"
 
 namespace performer {
 
 class Bootstrapper {
-private:
-    inline static const std::string_view CONDUCTOR_ENDPOINT = "ipc:///tmp/impresario"; //"tcp://10.0.0.181:44441";
-    inline static const int LED_COUNT = 60 * 3;
-
 public:
     static void boot();
 };

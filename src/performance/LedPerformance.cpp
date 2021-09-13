@@ -15,26 +15,21 @@ void LedPerformance::startPerformanceLoop(std::unique_ptr<LedPerformance> ledPer
     }
 }
 
-LedPerformance::LedPerformance(std::unique_ptr<EventReceiver> eventReceiver,
-                               std::shared_ptr<LedMatrixProxy> ledMatrixProxy)
-        : eventReceiver{move(eventReceiver)},
+LedPerformance::LedPerformance(
+        std::unique_ptr<std::vector<std::unique_ptr<impresarioUtils::PacketReceiver>>> packetReceivers,
+        std::shared_ptr<LedMatrixProxy> ledMatrixProxy)
+        : packetReceivers{move(packetReceivers)},
           ledMatrixProxy{move(ledMatrixProxy)},
           movements{},
-          randomNumberGenerator{},
-          timelineManager{} {
+          randomNumberGenerator{} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
-    auto displaySignalMovement = std::make_unique<DisplaySignalMovement>(
-            ledMatrixProxyRef, randomNumberGenerator, timelineManager
-    );
-    movements.push_back(move(displaySignalMovement));
-
-//    auto loggingMovement = std::make_unique<LoggingMovement>();
-//    movements.push_back(move(loggingMovement));
+    auto movement = std::make_unique<SandboxMovement>(ledMatrixProxyRef, randomNumberGenerator);
+    movements.push_back(move(movement));
 }
 
 void LedPerformance::perform() {
     auto lock = ledMatrixProxy->acquireLock();
-    handleEvents();
+    handleIncomingPackets();
     conductMovements();
 }
 
@@ -42,14 +37,15 @@ bool LedPerformance::finished() {
     return false;
 }
 
-void LedPerformance::handleEvents() {
-    auto events = eventReceiver->receive();
-    while (events->moreEventsLeft()) {
-        auto event = events->popEvent();
-        for (auto &movement: movements) {
-            movement->handleEvent(*event);
+void LedPerformance::handleIncomingPackets() {
+    for (auto &packetReceiver: *packetReceivers) {
+        auto packets = packetReceiver->receive();
+        while (packets->morePacketsLeft()) {
+            auto packet = packets->popPacket();
+            for (auto &movement: movements) {
+                movement->handleIncomingPacket(*packet);
+            }
         }
-        timelineManager.addEvent(move(event));
     }
 }
 
