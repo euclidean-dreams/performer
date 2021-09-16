@@ -22,6 +22,8 @@ public:
 
     void setLed(int x, int y, HSLColor color);
 
+    void clear();
+
     int width() const;
 
     int height() const;

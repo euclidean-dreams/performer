@@ -9,6 +9,10 @@
 namespace performer {
 
 class SandboxMovement : public LedMatrixMovement {
+private:
+    int x;
+    int y;
+
 public:
     SandboxMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);
 

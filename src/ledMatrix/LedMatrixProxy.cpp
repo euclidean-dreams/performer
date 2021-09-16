@@ -15,6 +15,14 @@ void LedMatrixProxy::setLed(int x, int y, HSLColor color) {
     matrix[y][x] = color;
 }
 
+void LedMatrixProxy::clear() {
+    for (int y = 0; y < height(); y++) {
+        for (int x = 0; x < width(); x++) {
+            matrix[y][x] = HSLColor{0, 0, 0};
+        }
+    }
+}
+
 int LedMatrixProxy::width() const {
     return static_cast<int>(matrix[0].size());
 }

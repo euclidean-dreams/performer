@@ -33,7 +33,12 @@ void Ws2812bLedStripRenderer::update() {
     auto lock = ledMatrixProxy->acquireLock();
     for (int y = 0; y < ledMatrixProxy->height(); y++) {
         for (int x = 0; x < ledMatrixProxy->width(); x++) {
-            auto index = y * ledMatrixProxy->width() + x;
+            int index;
+            if (y % 2 == 0) {
+                index = (y * ledMatrixProxy->width()) + x;
+            } else {
+                index = (y * ledMatrixProxy->width()) + (ledMatrixProxy->width() - x);
+            }
             auto color = ledMatrixProxy->getLed(x, y).convertToRGB();
             ledStrip->setLed(index, color);
         }
