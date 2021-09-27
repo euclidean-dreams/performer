@@ -1,20 +1,19 @@
 general:
   loggerName: performer
-  conductorEndpoint: tcp://10.0.0.181:44441
+  conductorEndpoint: tcp://10.0.0.181:44442
   fasciaEndpoint: tcp://10.0.0.219:44449
 
 ledMatrix:
-  width: 74
-  height: 10
+  width: 370
+  height: 1
 
 ws2812b:
   # channel 0 is gpio 18, channel 1 is gpio 13
   pwmChannel: 1
 
   # use channel 10 for pi A/B, channel 11 for pi zero
-  dmaChannel: 10
-  initialBrightness: 10
-  maxBrightness: 10
+  dmaChannel: 11
+  initialBrightness: 50
+  maxBrightness: 100
   # if flickering occurs, try throttling refresh rate to ledCount * 30
   refreshRate: 2500
-

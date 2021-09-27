@@ -39,4 +39,12 @@ std::unique_ptr<std::lock_guard<std::mutex>> LedMatrixProxy::acquireLock() {
     return std::make_unique<std::lock_guard<std::mutex>>(mutex);
 }
 
+int LedMatrixProxy::getBrightness() {
+    return brightness;
+}
+
+void LedMatrixProxy::setBrightness(int newBrightness) {
+    brightness = newBrightness;
+}
+
 }

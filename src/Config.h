@@ -9,7 +9,7 @@ namespace performer {
 
 class Config {
 private:
-    static constexpr std::string_view CONFIG_FILE_PATH = "../config.yml";
+    static constexpr std::string_view CONFIG_FILE_PATH = "./config.yml";
     static std::unique_ptr<Config> instance;
 
     // general
@@ -22,9 +22,10 @@ private:
     int ledMatrixHeight;
 
     // ws2812b
-    int gpioNumber;
     int pwmChannel;
+    int dmaChannel;
     int initialBrightness;
+    int maxBrightness;
     int refreshRate;
 
     Config();
@@ -47,11 +48,13 @@ public:
     int getledMatrixHeight() { return ledMatrixHeight; }
 
     // ws2812b
-    int getGpioNumber() { return gpioNumber; }
-
     int getPwmChannel() { return pwmChannel; }
 
+    int getDmaChannel() { return dmaChannel; }
+
     int getInitialBrightness() { return initialBrightness; }
+
+    int getMaxBrightness() { return maxBrightness; }
 
     int getRefreshRate() { return refreshRate; }
 };

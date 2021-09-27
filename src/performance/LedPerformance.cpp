@@ -21,16 +21,22 @@ LedPerformance::LedPerformance(
         : packetReceivers{move(packetReceivers)},
           ledMatrixProxy{move(ledMatrixProxy)},
           movements{},
-          randomNumberGenerator{} {
+          randomNumberGenerator{},
+          lastConduct{0} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
-    auto movement = std::make_unique<SandboxMovement>(ledMatrixProxyRef, randomNumberGenerator);
+//    auto movement = std::make_unique<SandboxMovement>(ledMatrixProxyRef, randomNumberGenerator);
+    auto movement = std::make_unique<DisplaySignalMovement>(ledMatrixProxyRef, randomNumberGenerator);
     movements.push_back(move(movement));
 }
 
 void LedPerformance::perform() {
     auto lock = ledMatrixProxy->acquireLock();
     handleIncomingPackets();
-    conductMovements();
+    if (impresarioUtils::getElapsedTime(lastConduct) > CONDUCT_INTERVAL_MICROSECONDS) {
+        ledMatrixProxy->clear();
+        conductMovements();
+        lastConduct = impresarioUtils::getCurrentTime();
+    }
 }
 
 bool LedPerformance::finished() {
@@ -44,6 +50,21 @@ void LedPerformance::handleIncomingPackets() {
             auto packet = packets->popPacket();
             for (auto &movement: movements) {
                 movement->handleIncomingPacket(*packet);
+            }
+            if (packet->getIdentifier() == ImpresarioSerialization::Identifier::floatMorsel) {
+                auto morsel = packet->getFloatMorsel();
+                if (morsel->field() == 14) {
+                    ledMatrixProxy->setBrightness(morsel->value() * Config::getInstance().getMaxBrightness());
+                } else if (morsel->field() == 100) {
+                    movements.clear();
+                    auto movement = std::make_unique<DisplaySignalMovement>(*this->ledMatrixProxy,
+                                                                            randomNumberGenerator);
+                    movements.push_back(move(movement));
+                } else if (morsel->field() == 101) {
+                    movements.clear();
+                    auto movement = std::make_unique<RippleMovement>(*this->ledMatrixProxy, randomNumberGenerator);
+                    movements.push_back(move(movement));
+                }
             }
         }
     }

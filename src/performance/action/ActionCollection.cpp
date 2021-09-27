@@ -17,11 +17,14 @@ void ActionCollection::trimActions(int maxActions) {
     }
 }
 
+void ActionCollection::clear() {
+    actions.clear();
+}
+
 void ActionCollection::executeActions() {
     auto iterator = actions.begin();
     while (iterator != actions.end()) {
         if ((*iterator)->finished()) {
-            (*iterator)->cleanup();
             iterator = actions.erase(iterator);
         } else {
             (*iterator)->execute();

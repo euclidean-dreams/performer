@@ -14,6 +14,7 @@ class LedMatrixProxy : impresarioUtils::NonCopyable {
 private:
     std::mutex mutex;
     std::vector<std::vector<HSLColor>> matrix;
+    int brightness;
 
 public:
     explicit LedMatrixProxy(uint width, uint height);
@@ -21,6 +22,10 @@ public:
     HSLColor getLed(int x, int y);
 
     void setLed(int x, int y, HSLColor color);
+
+    int getBrightness();
+
+    void setBrightness(int newBrightness);
 
     void clear();
 

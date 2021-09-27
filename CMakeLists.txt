@@ -14,7 +14,7 @@ integrate_cmake_dependency(
 integrate_cmake_dependency(
         NAME rpi_ws281x
         GIT_URL git@github.com:jgarff/rpi_ws281x.git
-        GIT_TAG 3a20f1bdd740a144de180a07d8d3317920459d2d
+        GIT_TAG 5d0041eba608e3a52aa637122a72396d3336d91b
 )
 integrate_cmake_dependency(
         NAME impresario-utils
@@ -55,7 +55,7 @@ set(
         src/performance/action/ledMatrixAction/LedMatrixAction.cpp src/performance/action/ledMatrixAction/LedMatrixAction.h
 
         src/performance/movement/ledMatrixMovement/SandboxMovement.cpp src/performance/movement/ledMatrixMovement/SandboxMovement.h
-        src/Config.cpp src/Config.h)
+        src/Config.cpp src/Config.h src/performance/movement/ledMatrixMovement/DisplaySignalMovement.cpp src/performance/movement/ledMatrixMovement/DisplaySignalMovement.h src/performance/action/ledMatrixAction/DisplaySignalAction.cpp src/performance/action/ledMatrixAction/DisplaySignalAction.h src/performance/action/ledMatrixAction/RippleAction.cpp src/performance/action/ledMatrixAction/RippleAction.h src/performance/movement/ledMatrixMovement/RippleMovement.cpp src/performance/movement/ledMatrixMovement/RippleMovement.h)
 list(APPEND TARGETS performer)
 add_executable(performer src/main.cpp ${SOURCE_FILES})
 

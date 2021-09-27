@@ -13,7 +13,8 @@ Ws2812bLedStripRenderer::Ws2812bLedStripRenderer(std::unique_ptr<Ws2812bLedStrip
         : ledStrip{move(ledStrip)},
           ledMatrixProxy{move(ledMatrixProxy)},
           refreshRate{Config::getInstance().getRefreshRate()} {
-    if (this->ledMatrixProxy->height() * this->ledMatrixProxy->width() != this->ledStrip->size()) {
+    // the extra multiplier on height is a workaround for an unknown issue in the library, try removing in the future
+    if (this->ledMatrixProxy->height() * this->ledMatrixProxy->width() + 2 != this->ledStrip->size()) {
         throw std::invalid_argument("led proxy is a different size than the led strip it is attempting to proxy");
     }
 
@@ -37,12 +38,13 @@ void Ws2812bLedStripRenderer::update() {
             if (y % 2 == 0) {
                 index = (y * ledMatrixProxy->width()) + x;
             } else {
-                index = (y * ledMatrixProxy->width()) + (ledMatrixProxy->width() - x);
+                index = (y * ledMatrixProxy->width()) + (ledMatrixProxy->width() - x - 1);
             }
             auto color = ledMatrixProxy->getLed(x, y).convertToRGB();
             ledStrip->setLed(index, color);
         }
     }
+    ledStrip->setBrightness(ledMatrixProxy->getBrightness());
 }
 
 bool Ws2812bLedStripRenderer::finished() {

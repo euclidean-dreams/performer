@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cmath>
 #include <sstream>
+#include <ImpresarioUtils.h>
 #include "color/RGBColor.h"
 
 namespace performer {
@@ -26,6 +27,9 @@ public:
     uint8_t getLightness() const;
 
     RGBColor convertToRGB() const;
+
+    static uint32_t generateSignificantlyDifferentHue(impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
+                                                      uint32_t originalHue, int significance);
 };
 
 }

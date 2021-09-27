@@ -13,8 +13,7 @@ ws2812b:
 
   # use channel 10 for pi A/B, channel 11 for pi zero
   dmaChannel: 10
-  initialBrightness: 10
-  maxBrightness: 10
+  initialBrightness: 50
+  maxBrightness: 172
   # if flickering occurs, try throttling refresh rate to ledCount * 30
   refreshRate: 2500
-

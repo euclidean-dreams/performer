@@ -29,10 +29,11 @@ Config::Config() {
     ledMatrixHeight = configFile["ledMatrix"]["height"].as<int>();
 
     // ws2812b
-    gpioNumber = configFile["ws2812b"]["gpioNumber"].as<int>();
     pwmChannel = configFile["ws2812b"]["pwmChannel"].as<int>();
-    refreshRate = configFile["ws2812b"]["refreshRate"].as<int>();
+    dmaChannel = configFile["ws2812b"]["dmaChannel"].as<int>();
     initialBrightness = configFile["ws2812b"]["initialBrightness"].as<int>();
+    maxBrightness = configFile["ws2812b"]["maxBrightness"].as<int>();
+    refreshRate = configFile["ws2812b"]["refreshRate"].as<int>();
 }
 
 }

@@ -18,6 +18,8 @@ public:
 
     void trimActions(int maxActions);
 
+    void clear();
+
     void executeActions();
 
     unsigned int size();

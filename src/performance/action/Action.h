@@ -12,8 +12,6 @@ public:
     virtual void execute() = 0;
 
     virtual bool finished() = 0;
-
-    virtual void cleanup() = 0;
 };
 
 }

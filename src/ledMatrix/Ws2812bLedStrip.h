@@ -12,6 +12,7 @@ private:
     ws2811_t ledDriver;
     int pwmChannel;
     int ledCount;
+    int maxBrightness;
 
     inline static uint32_t formatColorForDriver(const RGBColor &color);
 
@@ -23,6 +24,8 @@ public:
     void render();
 
     void setLed(int index, const RGBColor &color);
+
+    void setBrightness(int brightness);
 
     int size() { return ledCount; }
 };

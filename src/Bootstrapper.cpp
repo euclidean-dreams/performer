@@ -28,7 +28,7 @@ void Bootstrapper::boot() {
             context,
             config.getFasciaEndpoint(),
             zmq::socket_type::sub,
-            true
+            false
     );
     fasciaSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::floatMorsel);
     fasciaSocket->setSubscriptionFilter(ImpresarioSerialization::Identifier::floatArrayMorsel);

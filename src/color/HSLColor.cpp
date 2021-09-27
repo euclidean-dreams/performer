@@ -65,4 +65,16 @@ RGBColor HSLColor::convertToRGB() const {
     return RGBColor{red, green, blue};
 }
 
+uint32_t HSLColor::generateSignificantlyDifferentHue(impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
+                                                     uint32_t originalHue, int significance) {
+    auto resultHue = originalHue + randomNumberGenerator.generate(HSL_HUE_MAX - significance) + significance;
+    while (resultHue > HSL_HUE_MAX) {
+        resultHue -= HSL_HUE_MAX;
+    }
+    while (resultHue < 0) {
+        resultHue += HSL_HUE_MAX;
+    }
+    return resultHue;
+}
+
 }
