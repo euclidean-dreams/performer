@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" deleteMissingItems="true" createEmptyFolders="true" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="conductor (21bcc28b-043a-4342-8a2e-16eadf376e46)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/root/performer-deployment" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-conductor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-performer" />
+            <excludedPath local="true" path="$PROJECT_DIR$/legacy" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-conductor" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="performer (6a69c52e-49c3-4c7f-b5d7-8fc74421618e)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.BwdBOFZmq9" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-conductor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/venv" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-performer" />
+            <excludedPath local="true" path="$PROJECT_DIR$/legacy" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release-conductor" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>

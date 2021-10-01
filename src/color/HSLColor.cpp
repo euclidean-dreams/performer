@@ -25,6 +25,22 @@ uint8_t HSLColor::getLightness() const {
     return lightness;
 }
 
+HSLColor HSLColor::lighten(int amount) const {
+    auto newLightness = static_cast<int>(lightness) + amount;
+    if (newLightness > 100) {
+        newLightness = 100;
+    }
+    return {hue, saturation, static_cast<uint8_t>(newLightness)};
+}
+
+HSLColor HSLColor::darken(int amount) const {
+    auto newLightness = static_cast<int>(lightness) - amount;
+    if (newLightness < 0) {
+        newLightness = 0;
+    }
+    return {hue, saturation, static_cast<uint8_t>(newLightness)};
+}
+
 RGBColor HSLColor::convertToRGB() const {
     auto workingHue = static_cast<float>(hue);
     auto workingSaturation = static_cast<float>(saturation) / 100;
@@ -63,18 +79,6 @@ RGBColor HSLColor::convertToRGB() const {
     auto green = static_cast<uint8_t>(std::roundf((initialGreen + lightnessAdjustment) * 255));
     auto blue = static_cast<uint8_t>(std::roundf((initialBlue + lightnessAdjustment) * 255));
     return RGBColor{red, green, blue};
-}
-
-uint32_t HSLColor::generateSignificantlyDifferentHue(impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
-                                                     uint32_t originalHue, int significance) {
-    auto resultHue = originalHue + randomNumberGenerator.generate(HSL_HUE_MAX - significance) + significance;
-    while (resultHue > HSL_HUE_MAX) {
-        resultHue -= HSL_HUE_MAX;
-    }
-    while (resultHue < 0) {
-        resultHue += HSL_HUE_MAX;
-    }
-    return resultHue;
 }
 
 }

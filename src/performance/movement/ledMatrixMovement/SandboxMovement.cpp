@@ -28,11 +28,11 @@ void SandboxMovement::handleTick() {
 //            }
 //        }
 //    }
-    for (int y = 0; y < ledMatrix.height(); y++) {
-        for (int x = 0; x < ledMatrix.width(); x++) {
-            ledMatrix.setLed(x, y, HSLColor{static_cast<uint32_t>(100), 100, 50});
-        }
-    }
+//    for (int y = 0; y < ledMatrix.height(); y++) {
+//        for (int x = 0; x < ledMatrix.width(); x++) {
+//            ledMatrix.setLed(x, y, HSLColor{static_cast<uint32_t>(100), 100, 50});
+//        }
+//    }
 }
 
 }

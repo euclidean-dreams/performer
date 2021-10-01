@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="10.0.0.85" id="7bb46ac4-9b80-4bd4-8ff4-721d4ccc0a20" port="22" customName="performer-matrix" nameFormat="CUSTOM" username="root">
+        <option name="customName" value="performer-matrix" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>

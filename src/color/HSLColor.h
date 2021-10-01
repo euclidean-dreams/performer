@@ -26,10 +26,11 @@ public:
 
     uint8_t getLightness() const;
 
-    RGBColor convertToRGB() const;
+    HSLColor lighten(int amount) const;
 
-    static uint32_t generateSignificantlyDifferentHue(impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
-                                                      uint32_t originalHue, int significance);
+    HSLColor darken(int amount) const;
+
+    RGBColor convertToRGB() const;
 };
 
 }

@@ -7,7 +7,8 @@
 #include "performance/Performance.h"
 #include "performance/movement/ledMatrixMovement/SandboxMovement.h"
 #include "performance/movement/ledMatrixMovement/DisplaySignalMovement.h"
-#include "performance/movement/ledMatrixMovement/RippleMovement.h"
+#include "performance/movement/ledMatrixMovement/RectanglandMovement.h"
+#include "performance/movement/ledMatrixMovement/SinusoidaleryMovement.h"
 
 namespace performer {
 

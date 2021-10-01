@@ -99,7 +99,7 @@ int DisplaySignalMovement::doctorHue(const std::vector<float> &displaySignal) {
     if (currentEnergy - previousEnergy > previousEnergy * energyRequiredForColorChangeMultiplier &&
         impresarioUtils::getElapsedTime(lastColorChangeTimestamp) > minimumTimeBetweenColorChanges) {
         lastColorChangeTimestamp = impresarioUtils::getCurrentTime();
-        return HSLColor::generateSignificantlyDifferentHue(randomNumberGenerator, hue, 50);
+        return LedGizmos::generateSignificantlyDifferentHue(randomNumberGenerator, hue, 50);
     }
     return hue;
 }

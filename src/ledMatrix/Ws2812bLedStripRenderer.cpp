@@ -40,7 +40,7 @@ void Ws2812bLedStripRenderer::update() {
             } else {
                 index = (y * ledMatrixProxy->width()) + (ledMatrixProxy->width() - x - 1);
             }
-            auto color = ledMatrixProxy->getLed(x, y).convertToRGB();
+            auto color = ledMatrixProxy->getLed({x, y}).convertToRGB();
             ledStrip->setLed(index, color);
         }
     }

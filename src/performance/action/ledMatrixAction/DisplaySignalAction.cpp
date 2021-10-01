@@ -24,7 +24,9 @@ void DisplaySignalAction::handleTick() {
             if (lightness > maxLightness) {
                 lightness = maxLightness;
             }
-            ledMatrix.setLed(x, y, HSLColor{hue, 100, static_cast<uint8_t>(lightness)});
+            if (ledMatrix.isValid({x, y})) {
+                ledMatrix.setLed({x, y}, HSLColor{hue, 100, static_cast<uint8_t>(lightness)});
+            }
         }
     }
 }

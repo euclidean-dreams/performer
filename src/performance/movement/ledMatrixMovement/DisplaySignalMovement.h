@@ -4,6 +4,7 @@
 #include "Bootstrapper.h"
 #include "performance/movement/ledMatrixMovement/LedMatrixMovement.h"
 #include "performance/action/ledMatrixAction/DisplaySignalAction.h"
+#include "ledMatrix/LedGizmos.h"
 
 namespace performer {
 

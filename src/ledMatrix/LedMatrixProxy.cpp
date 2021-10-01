@@ -7,12 +7,21 @@ LedMatrixProxy::LedMatrixProxy(uint width, uint height)
 
 }
 
-HSLColor LedMatrixProxy::getLed(int x, int y) {
-    return matrix[y][x];
+HSLColor LedMatrixProxy::getLed(Coordinate coordinate) {
+    return matrix[coordinate.y][coordinate.x];
 }
 
-void LedMatrixProxy::setLed(int x, int y, HSLColor color) {
-    matrix[y][x] = color;
+void LedMatrixProxy::setLed(Coordinate coordinate, HSLColor color) {
+    matrix[coordinate.y][coordinate.x] = color;
+}
+
+bool LedMatrixProxy::isValid(Coordinate coordinate) {
+    if (coordinate.x >= 0 && coordinate.x < width()) {
+        if (coordinate.y >= 0 && coordinate.y < height()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void LedMatrixProxy::clear() {

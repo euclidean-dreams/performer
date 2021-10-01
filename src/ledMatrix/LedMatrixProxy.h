@@ -6,6 +6,7 @@
 #include <vector>
 #include <sstream>
 #include <ImpresarioUtils.h>
+#include "Coordinate.h"
 #include "color/HSLColor.h"
 
 namespace performer {
@@ -19,9 +20,11 @@ private:
 public:
     explicit LedMatrixProxy(uint width, uint height);
 
-    HSLColor getLed(int x, int y);
+    HSLColor getLed(Coordinate coordinate);
 
-    void setLed(int x, int y, HSLColor color);
+    void setLed(Coordinate coordinate, HSLColor color);
+
+    bool isValid(Coordinate coordinate);
 
     int getBrightness();
 

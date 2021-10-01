@@ -25,7 +25,7 @@ LedPerformance::LedPerformance(
           lastConduct{0} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
 //    auto movement = std::make_unique<SandboxMovement>(ledMatrixProxyRef, randomNumberGenerator);
-    auto movement = std::make_unique<DisplaySignalMovement>(ledMatrixProxyRef, randomNumberGenerator);
+    auto movement = std::make_unique<SinusoidaleryMovement>(ledMatrixProxyRef, randomNumberGenerator);
     movements.push_back(move(movement));
 }
 
@@ -57,12 +57,13 @@ void LedPerformance::handleIncomingPackets() {
                     ledMatrixProxy->setBrightness(morsel->value() * Config::getInstance().getMaxBrightness());
                 } else if (morsel->field() == 100) {
                     movements.clear();
-                    auto movement = std::make_unique<DisplaySignalMovement>(*this->ledMatrixProxy,
-                                                                            randomNumberGenerator);
+                    auto movement = std::make_unique<RectanglandMovement>(*this->ledMatrixProxy,
+                                                                          randomNumberGenerator);
                     movements.push_back(move(movement));
                 } else if (morsel->field() == 101) {
                     movements.clear();
-                    auto movement = std::make_unique<RippleMovement>(*this->ledMatrixProxy, randomNumberGenerator);
+                    auto movement = std::make_unique<SinusoidaleryMovement>(*this->ledMatrixProxy,
+                                                                            randomNumberGenerator);
                     movements.push_back(move(movement));
                 }
             }
