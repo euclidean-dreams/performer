@@ -9,8 +9,24 @@ Shape::Shape(Coordinate origin, HSLColor rootColor, BoundingBox renderBounds)
 }
 
 void Shape::render(LedMatrixProxy &ledMatrix) {
-    for (int y = renderBounds.lowerLeft.y; y <= renderBounds.upperRight.y; y++) {
-        for (int x = renderBounds.lowerLeft.x; x < renderBounds.upperRight.x; x++) {
+    auto minX = renderBounds.lowerLeft.x;
+    if (minX < 0) {
+        minX = 0;
+    }
+    auto minY = renderBounds.lowerLeft.y;
+    if (minY < 0) {
+        minY = 0;
+    }
+    auto maxX = renderBounds.upperRight.x;
+    if (maxX >= ledMatrix.width()) {
+        maxX = ledMatrix.width() - 1;
+    }
+    auto maxY = renderBounds.upperRight.y;
+    if (maxY >= ledMatrix.height()) {
+        maxY = ledMatrix.height() - 1;
+    }
+    for (int y = minY; y <= maxY; y++) {
+        for (int x = minX; x <= maxX; x++) {
             if (ledMatrix.isValid({x, y})) {
                 if (coordinateInShape({x, y})) {
                     ledMatrix.setLed({x, y}, calculateColor({x, y}));

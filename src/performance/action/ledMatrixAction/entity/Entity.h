@@ -16,6 +16,8 @@ public:
 
     virtual void render(LedMatrixProxy &ledMatrix) = 0;
 
+    HSLColor getRootColor();
+
     void setRootColor(HSLColor color);
 };
 

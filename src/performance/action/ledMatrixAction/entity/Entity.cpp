@@ -8,6 +8,10 @@ Entity::Entity(Coordinate origin, HSLColor rootColor)
           rootColor{rootColor} {
 }
 
+HSLColor Entity::getRootColor() {
+    return rootColor;
+}
+
 void Entity::setRootColor(HSLColor color) {
     rootColor = color;
 }

@@ -9,8 +9,9 @@ Circle::Circle(Coordinate origin, HSLColor rootColor, int radius)
 }
 
 bool Circle::coordinateInShape(Coordinate coordinate) {
-    Coordinate adjustedCoordinate = {coordinate.x - origin.x, coordinate.y - origin.y};
-    if (radius > adjustedCoordinate.x * adjustedCoordinate.x + adjustedCoordinate.y * adjustedCoordinate.y) {
+    auto x = coordinate.x - origin.x;
+    auto y = coordinate.y - origin.y;
+    if (radius > x * x + y * y) {
         return true;
     }
     return false;
