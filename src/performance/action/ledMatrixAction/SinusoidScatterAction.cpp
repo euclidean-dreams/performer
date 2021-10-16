@@ -3,12 +3,12 @@
 namespace performer {
 
 SinusoidScatterAction::SinusoidScatterAction(LedMatrixProxy &ledMatrix, Coordinate origin, HSLColor color, float speed,
-                                             float frequency, float spread)
+                                             float frequency, float spread, float wobble)
         : LedMatrixAction(ledMatrix),
           color{color},
           speed{speed} {
-    rightWave = std::make_unique<Sinusoid>(origin, color, frequency, 1, spread, 1);
-    leftWave = std::make_unique<Sinusoid>(origin, color, frequency, 1, spread, -1);
+    rightWave = std::make_unique<Sinusoid>(origin, color, frequency, 1, spread, 1, wobble);
+    leftWave = std::make_unique<Sinusoid>(origin, color, frequency, 1, spread, -1, -wobble);
 }
 
 bool SinusoidScatterAction::finished() {

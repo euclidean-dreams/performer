@@ -25,7 +25,7 @@ LedPerformance::LedPerformance(
           lastConduct{0} {
     auto &ledMatrixProxyRef = *this->ledMatrixProxy;
 //    auto movement = std::make_unique<SandboxMovement>(ledMatrixProxyRef, randomNumberGenerator);
-    auto movement = std::make_unique<FlameoHotmanMovement>(ledMatrixProxyRef, randomNumberGenerator);
+    auto movement = std::make_unique<RectanglandMovement>(ledMatrixProxyRef, randomNumberGenerator);
     movements.push_back(move(movement));
 }
 
@@ -53,21 +53,34 @@ void LedPerformance::handleIncomingPackets() {
             }
             if (packet->getIdentifier() == ImpresarioSerialization::Identifier::floatMorsel) {
                 auto morsel = packet->getFloatMorsel();
-                if (morsel->field() == 14) {
-                    ledMatrixProxy->setBrightness(morsel->value() * Config::getInstance().getMaxBrightness());
-                } else if (morsel->field() == 100) {
-                    movements.clear();
-                    auto movement = std::make_unique<FlameoHotmanMovement>(*this->ledMatrixProxy,
-                                                                           randomNumberGenerator);
-                    movements.push_back(move(movement));
-                } else if (morsel->field() == 101) {
+                if (morsel->field() == 104) {
+                    auto brightness = ledMatrixProxy->getBrightness() + 20;
+                    if (brightness <= Config::getInstance().getMaxBrightness()) {
+                        ledMatrixProxy->setBrightness(brightness);
+                    }
+                } else if (morsel->field() == 105) {
+                    auto brightness = ledMatrixProxy->getBrightness() - 20;
+                    if (brightness >= 0) {
+                        ledMatrixProxy->setBrightness(brightness);
+                    }
+                } else if (morsel->field() == 112) {
                     movements.clear();
                     auto movement = std::make_unique<RectanglandMovement>(*this->ledMatrixProxy,
-                                                                          randomNumberGenerator);
+                                                                      randomNumberGenerator);
                     movements.push_back(move(movement));
-                } else if (morsel->field() == 102) {
+                } else if (morsel->field() == 113) {
                     movements.clear();
                     auto movement = std::make_unique<SinusoidaleryMovement>(*this->ledMatrixProxy,
+                                                                            randomNumberGenerator);
+                    movements.push_back(move(movement));
+                } else if (morsel->field() == 114) {
+                    movements.clear();
+                    auto movement = std::make_unique<FlameoHotmanMovement>(*this->ledMatrixProxy,
+                                                                          randomNumberGenerator);
+                    movements.push_back(move(movement));
+                } else if (morsel->field() == 115) {
+                    movements.clear();
+                    auto movement = std::make_unique<DragonaryMovement>(*this->ledMatrixProxy,
                                                                             randomNumberGenerator);
                     movements.push_back(move(movement));
                 }

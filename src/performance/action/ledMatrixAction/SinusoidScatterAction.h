@@ -16,7 +16,7 @@ private:
 
 public:
     SinusoidScatterAction(LedMatrixProxy &ledMatrix, Coordinate origin, HSLColor color, float speed, float frequency,
-                          float spread);
+                          float spread, float wobble);
 
     bool finished() override;
 

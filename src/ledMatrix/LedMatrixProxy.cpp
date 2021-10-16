@@ -2,8 +2,9 @@
 
 namespace performer {
 
-LedMatrixProxy::LedMatrixProxy(uint width, uint height)
-        : matrix{height, {width, HSLColor{0, 0, 0}}} {
+LedMatrixProxy::LedMatrixProxy(uint width, uint height, int brightness)
+        : matrix{height, {width, HSLColor{0, 0, 0}}},
+          brightness{brightness} {
 
 }
 

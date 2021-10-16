@@ -10,6 +10,7 @@
 #include "performance/movement/ledMatrixMovement/FlameoHotmanMovement.h"
 #include "performance/movement/ledMatrixMovement/RectanglandMovement.h"
 #include "performance/movement/ledMatrixMovement/SinusoidaleryMovement.h"
+#include "performance/movement/ledMatrixMovement/DragonaryMovement.h"
 
 namespace performer {
 

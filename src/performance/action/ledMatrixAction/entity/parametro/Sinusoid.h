@@ -11,6 +11,7 @@ private:
     float phase;
     float spread;
     float xMultiplier;
+    float wobble;
 
 protected:
     Coordinate calculateCoordinate(int timeling) override;
@@ -18,7 +19,8 @@ protected:
     HSLColor calculateColor(Coordinate coordinate) override;
 
 public:
-    Sinusoid(Coordinate origin, HSLColor rootColor, float frequency, float phase, float spread, float xMultiplier);
+    Sinusoid(Coordinate origin, HSLColor rootColor, float frequency, float phase, float spread, float xMultiplier,
+             float wobble);
 };
 
 }

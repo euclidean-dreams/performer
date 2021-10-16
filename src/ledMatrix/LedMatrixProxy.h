@@ -18,7 +18,7 @@ private:
     int brightness;
 
 public:
-    explicit LedMatrixProxy(uint width, uint height);
+    explicit LedMatrixProxy(uint width, uint height, int brightness);
 
     HSLColor getLed(Coordinate coordinate);
 

@@ -12,7 +12,7 @@ void Parametro::render(LedMatrixProxy &ledMatrix) {
     for (int timeling = 0; timeling < currentTimeling; timeling++) {
         auto coordinate = calculateCoordinate(timeling);
         if (ledMatrix.isValid(coordinate)) {
-            ledMatrix.setLed({coordinate.x, coordinate.y}, calculateColor(coordinate));
+            ledMatrix.setLed(coordinate, calculateColor(coordinate));
         }
     }
 }

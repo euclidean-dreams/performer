@@ -7,8 +7,7 @@ FlameAction::FlameAction(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumbe
         : LedMatrixAction(ledMatrix),
           randomNumberGenerator{randomNumberGenerator},
           currentLightness{static_cast<float>(color.getLightness())},
-          ramping{true},
-          mode{mode} {
+          ramping{true} {
     auto flameCount = 2;
     for (int index = 0; index < flameCount; index++) {
         int hue = 0;

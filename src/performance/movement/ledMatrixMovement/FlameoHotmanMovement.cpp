@@ -19,11 +19,11 @@ void FlameoHotmanMovement::handleIncomingPacket(const impresarioUtils::Packet &p
         auto morsel = packet.getFloatMorsel();
         if (morsel->field() == 13) {
             hue = morsel->value() * HSL_HUE_MAX;
-        } else if (morsel->field() == 103) {
+        } else if (morsel->field() == 100) {
             mode = 0;
-        } else if (morsel->field() == 104) {
+        } else if (morsel->field() == 101) {
             mode = 1;
-        } else if (morsel->field() == 105) {
+        } else if (morsel->field() == 102) {
             mode = 2;
         }
     }
@@ -50,7 +50,6 @@ void FlameoHotmanMovement::handleIncomingPacket(const impresarioUtils::Packet &p
         }
         actionCollection.trimActions(maxEntities);
     }
-
 }
 
 void FlameoHotmanMovement::handleTick() {

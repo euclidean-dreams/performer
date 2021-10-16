@@ -10,7 +10,8 @@ void Bootstrapper::boot() {
 
     // led renderer
     auto ws2812BLedStrip = std::make_unique<Ws2812bLedStrip>();
-    auto ledMatrixProxy = std::make_shared<LedMatrixProxy>(config.getLedMatrixWidth(), config.getledMatrixHeight());
+    auto ledMatrixProxy = std::make_shared<LedMatrixProxy>(config.getLedMatrixWidth(), config.getledMatrixHeight(),
+                                                           config.getInitialBrightness());
     auto ws2812BLedStripRenderer = std::make_unique<Ws2812bLedStripRenderer>(move(ws2812BLedStrip), ledMatrixProxy);
     std::thread ledMatrixRenderingThread{Ws2812bLedStripRenderer::startRenderLoop, move(ws2812BLedStripRenderer)};
 

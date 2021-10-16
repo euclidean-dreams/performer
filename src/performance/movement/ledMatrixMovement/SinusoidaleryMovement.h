@@ -13,6 +13,7 @@ private:
     EntitySpawner entitySpawner;
     float actionSpeed;
     int maxEntities;
+    int mode;
 
 public:
     SinusoidaleryMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);

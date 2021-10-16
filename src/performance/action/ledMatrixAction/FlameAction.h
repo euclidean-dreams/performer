@@ -14,7 +14,6 @@ private:
     std::vector<std::unique_ptr<Flame>> flameStack;
     float currentLightness;
     bool ramping;
-    int mode;
 
 public:
     FlameAction(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator,
