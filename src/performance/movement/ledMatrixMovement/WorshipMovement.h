@@ -1,25 +1,24 @@
-#ifndef PERFORMER_RECTANGLANDMOVEMENT_H
-#define PERFORMER_RECTANGLANDMOVEMENT_H
+#ifndef PERFORMER_WORSHIPMOVEMENT_H
+#define PERFORMER_WORSHIPMOVEMENT_H
 
 #include "Bootstrapper.h"
 #include "performance/movement/ledMatrixMovement/LedMatrixMovement.h"
 #include "performance/movement/ledMatrixMovement/EntitySpawner.h"
+#include "performance/action/ledMatrixAction/FlameAction.h"
 #include "ledMatrix/LedGizmos.h"
-#include "performance/action/ledMatrixAction/RectangleGrowthAction.h"
 #include "ledMatrix/Coordinate.h"
 
 namespace performer {
 
-class RectanglandMovement : public LedMatrixMovement {
+class WorshipMovement : public LedMatrixMovement {
 private:
     EntitySpawner entitySpawner;
-    float entityGrowthSpeed;
     int maxEntities;
     int hue;
     int mode;
 
 public:
-    RectanglandMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);
+    WorshipMovement(LedMatrixProxy &ledMatrix, impresarioUtils::RandomNumberGenerator &randomNumberGenerator);
 
     void handleIncomingPacket(const impresarioUtils::Packet &packet) override;
 
@@ -29,4 +28,4 @@ public:
 
 }
 
-#endif //PERFORMER_RECTANGLANDMOVEMENT_H
+#endif //PERFORMER_WORSHIPMOVEMENT_H

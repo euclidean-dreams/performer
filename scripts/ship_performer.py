@@ -6,7 +6,7 @@ WEBSTER = "webster"
 SQUIGS = "squigs"
 
 # change target here
-PERFORMER_NAME = FOSTER
+PERFORMER_NAME = WEBSTER
 
 PERFORMER_ADDRESS = PERFORMER_NAME
 

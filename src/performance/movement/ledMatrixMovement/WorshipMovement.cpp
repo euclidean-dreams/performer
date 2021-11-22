@@ -1,26 +1,23 @@
-#include "SinusoidaleryMovement.h"
+#include "WorshipMovement.h"
 
 namespace performer {
 
-SinusoidaleryMovement::SinusoidaleryMovement(LedMatrixProxy &ledMatrix,
-                                             impresarioUtils::RandomNumberGenerator &randomNumberGenerator)
+WorshipMovement::WorshipMovement(LedMatrixProxy &ledMatrix,
+                                           impresarioUtils::RandomNumberGenerator &randomNumberGenerator)
         : LedMatrixMovement(ledMatrix, randomNumberGenerator),
           entitySpawner{},
-          actionSpeed{0.5},
-          maxEntities{500},
+          maxEntities{30},
           hue{0},
-          mode{1} {
+          mode{0} {
 
 }
 
-void SinusoidaleryMovement::handleIncomingPacket(const impresarioUtils::Packet &packet) {
+void WorshipMovement::handleIncomingPacket(const impresarioUtils::Packet &packet) {
     entitySpawner.handleIncomingPacket(packet);
     if (packet.getIdentifier() == ImpresarioSerialization::Identifier::floatMorsel) {
         auto morsel = packet.getFloatMorsel();
         if (morsel->field() == 13) {
             hue = morsel->value() * HSL_HUE_MAX;
-        } else if (morsel->field() == 14) {
-            actionSpeed = morsel->value();
         } else if (morsel->field() == 100) {
             mode = 0;
         } else if (morsel->field() == 101) {
@@ -46,16 +43,17 @@ void SinusoidaleryMovement::handleIncomingPacket(const impresarioUtils::Packet &
             } else if (mode == 2) {
                 color = HSLColor{LedGizmos::bindHue(randomNumberGenerator.generate(HSL_HUE_MAX)), 100, 40};
             }
-            auto action = std::make_unique<SinusoidScatterAction>(ledMatrix, randomNumberGenerator, origin, color,
-                                                                  actionSpeed, 1, 2, mode);
+            auto width = entityRadix.magnitude * 10 + 20;
+            auto height = entityRadix.magnitude * 10 + 4;
+            auto action = std::make_unique<FlameAction>(ledMatrix, randomNumberGenerator, origin, color, width, height,
+                                                        mode);
             actionCollection.addAction(move(action));
         }
         actionCollection.trimActions(maxEntities);
     }
-
 }
 
-void SinusoidaleryMovement::handleTick() {
+void WorshipMovement::handleTick() {
 
 }
 

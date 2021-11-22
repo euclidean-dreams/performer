@@ -15,6 +15,7 @@ private:
     EntitySpawner entitySpawner;
     int maxEntities;
     int mode;
+    int hue;
     float speed;
 
 public:

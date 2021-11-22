@@ -8,7 +8,9 @@ RectanglandMovement::RectanglandMovement(LedMatrixProxy &ledMatrix,
         : LedMatrixMovement(ledMatrix, randomNumberGenerator),
           entitySpawner{},
           entityGrowthSpeed{0.5},
-          maxEntities{300} {
+          maxEntities{300},
+          hue{0},
+          mode{1} {
 
 }
 
@@ -17,7 +19,15 @@ void RectanglandMovement::handleIncomingPacket(const impresarioUtils::Packet &pa
     if (packet.getIdentifier() == ImpresarioSerialization::Identifier::floatMorsel) {
         auto morsel = packet.getFloatMorsel();
         if (morsel->field() == 13) {
+            hue = morsel->value() * HSL_HUE_MAX;
+        } else if (morsel->field() == 14) {
             entityGrowthSpeed = morsel->value();
+        } else if (morsel->field() == 100) {
+            mode = 0;
+        } else if (morsel->field() == 101) {
+            mode = 1;
+        } else if (morsel->field() == 102) {
+            mode = 2;
         }
     }
     if (packet.getIdentifier() == ImpresarioSerialization::Identifier::displaySignal) {
@@ -26,9 +36,18 @@ void RectanglandMovement::handleIncomingPacket(const impresarioUtils::Packet &pa
         auto entityRadixes = entitySpawner.calculateRadixes(signal);
         for (auto entityRadix: *entityRadixes) {
             auto origin = LedGizmos::calculateCoordinate(entityRadix.index, ledMatrix);
-            auto hueShift = (tick / 10) % HSL_HUE_MAX;
-            auto hue = LedGizmos::generateFrequencyBasedHue(entityRadix.index, ledMatrix, hueShift);
-            auto color = HSLColor{hue, 100, 50};
+            int currentHue = hue + randomNumberGenerator.generate(5);
+            HSLColor color = {0, 0, 0};
+            if (mode == 0) {
+                auto hueShift = (tick / 10) % HSL_HUE_MAX;
+                auto subHue = LedGizmos::generateFrequencyBasedHue(entityRadix.index, ledMatrix, hueShift);
+                color = HSLColor{subHue, 100, 50};
+            } else if (mode == 1) {
+                auto subHue = LedGizmos::bindHue(currentHue + entityRadix.index / 5);
+                color = HSLColor{subHue, 100, 40};
+            } else if (mode == 2) {
+                color = HSLColor{LedGizmos::bindHue(randomNumberGenerator.generate(HSL_HUE_MAX)), 100, 40};
+            }
             auto width = randomNumberGenerator.generate(5);
             auto height = randomNumberGenerator.generate(5);
             auto action = std::make_unique<RectangleGrowthAction>(ledMatrix, origin, color, entityGrowthSpeed, width,

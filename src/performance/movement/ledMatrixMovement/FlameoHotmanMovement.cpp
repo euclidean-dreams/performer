@@ -1,4 +1,3 @@
-#include "performance/action/ledMatrixAction/RectangleGrowthAction.h"
 #include "FlameoHotmanMovement.h"
 
 namespace performer {
@@ -9,7 +8,7 @@ FlameoHotmanMovement::FlameoHotmanMovement(LedMatrixProxy &ledMatrix,
           entitySpawner{},
           maxEntities{30},
           hue{0},
-          mode{0} {
+          mode{1} {
 
 }
 
@@ -36,7 +35,9 @@ void FlameoHotmanMovement::handleIncomingPacket(const impresarioUtils::Packet &p
             int currentHue = hue + randomNumberGenerator.generate(5);
             HSLColor color = {0, 0, 0};
             if (mode == 0) {
-                color = HSLColor{LedGizmos::bindHue(randomNumberGenerator.generate(5)), 100, 40};
+                auto hueShift = (tick / 10) % HSL_HUE_MAX;
+                auto subHue = LedGizmos::generateFrequencyBasedHue(entityRadix.index, ledMatrix, hueShift);
+                color = HSLColor{subHue, 100, 50};
             } else if (mode == 1) {
                 color = HSLColor{LedGizmos::bindHue(currentHue), 100, 40};
             } else if (mode == 2) {
